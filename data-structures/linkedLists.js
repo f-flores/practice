@@ -41,13 +41,16 @@ class LinkedList {
 
     let newHead = this.head.next;  // have a holder point to next value
     this.head = newHead;
+    
     if (!this.head) this.tail = null; // empty list, set tail back to null
+
     this.length--;
+
     return this;
   }
 
   removeFromTail() {
-    // empty list
+    // case of empty list
     if (!this.tail) return undefined;
     if (this.length === 1) this.removeFromHead();
 

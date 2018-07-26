@@ -7,7 +7,7 @@ function findDups(arr) {
   let allDups = [];
   
   for (let i in arr) {
-  	// if number is not in array already put it in the numsPresent object
+  	// if number is not in array already put it in the numsPresent dictionary
   	if (!numsPresent[arr[i]])
     	numsPresent[arr[i]] = -1;
     else {
