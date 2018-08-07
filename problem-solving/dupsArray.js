@@ -1,6 +1,5 @@
 arrNums = [3, 23, 5, 7, 8, 9, 23, 5, 9, 5, 9];
 
-// return first duplicate
 function findDups(arr) {
 	// put non-duplicate elements into dictionary
   let numsPresent = {};

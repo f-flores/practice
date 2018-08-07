@@ -51,8 +51,11 @@ class LinkedList {
 
   removeFromTail() {
     // case of empty list
-    if (!this.tail) return undefined;
-    if (this.length === 1) this.removeFromHead();
+    if (!this.tail) 
+      return undefined;
+
+    if (this.length === 1)
+      this.removeFromHead();
 
     let nodePtr = this.head;
     let prevPtr = null;
@@ -145,4 +148,4 @@ myList.addToTail("55");
 // myList.removeFromHead();
 
 // Print out linked list
-console.log(JSON.stringify(myList));
+console.log(JSON.stringify(myList, null, 2));
