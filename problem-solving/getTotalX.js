@@ -82,23 +82,19 @@ function getTotalX(a, b) {
   /*
    * Write your code here.
    */
-  let between = [], isMult = false, isFact = false;
+  let between = [];
   let minOfb = 1001, maxOfa = -1; // max of a and  b is 100
   // find minimum of b
-  for (let elem_b of b) minOfb = Math.min(elem_b, minOfb);
+  for (let elem_b of b)
+    minOfb = Math.min(elem_b, minOfb);
   
   // find maximum of a
-  for (let elem_a of a) maxOfa = Math.max(elem_a, maxOfa);
+  for (let elem_a of a)
+    maxOfa = Math.max(elem_a, maxOfa);
   
   // find factors that are between a and b
   for (let i = maxOfa; i <= minOfb; i++) {
-      // test in array a
-      isMult = isMultiple(a, i);
-      
-      /// test in array b
-      isFact = isFactor(b, i);
-      
-      if (isMult && isFact) {
+      if (isMultiple(a, i) && isFactor(b, i)) {
           between.push(i);
       }
   }
@@ -114,7 +110,6 @@ function main() {
   let total = getTotalX(a, b);
 
   console.log(total + "\n");
-
 }
 
 main();
