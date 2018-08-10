@@ -45,16 +45,20 @@ Print  "number"s. The  "number" should indicate the rank of alice after playing 
  */
 
  function binarySearch(val, arr, left, right) {
-   let mid = Math.floor((left + right) / 2);
+   let mid = Math.trunc((left + right) / 2);
    let arrayVal = parseInt(arr[mid], 10);
-   // console.log(`left: ${left}, right: ${right}, mid ${mid}`);
+   // console.log(`left: ${left}, right: ${right}, mid ${mid}, arrayVal = ${arrayVal}`);
    // console.log(`val: ${val}`);
-   console.log(arr);
+   // console.log(arr);
 
-   if (val === arrayVal ||  left > right) {
+   if (val === arrayVal) {
+     return mid + 1;
+   }
+
+   if (left > right) {
      // console.log(`val: ${val}`);
-     return mid >= 0 ? arr.length - mid : arr.length + 1;
-   } else if (val < arrayVal) {
+     return left + 1;
+   } else if (val > arrayVal) {
      return binarySearch(val, arr, left, mid - 1);
    } else {
      return binarySearch(val, arr, mid + 1, right);
@@ -63,31 +67,26 @@ Print  "number"s. The  "number" should indicate the rank of alice after playing 
 
  function climbingLeaderboard(scores, alice) {
   // attach places to scores, scores are passed in decreasing order
-  let scoreBoard = {}, place = 1, maxScore = -1;
-  for (let score of scores) {
-    if (!scoreBoard[score]) {
-      scoreBoard[score] = place++;
+  let arrScores = [];
+  for (let ind = 1; ind <= scores.length; ind++) {
+    // remove duplicates from array
+    if (scores[ind] !== scores[ind - 1]) {
+      arrScores.push(scores[ind - 1]);
     }
   } 
   // console.log("scoreBoard: ", JSON.stringify(scoreBoard, null, 2));
+  // console.log("arrScores: ", arrScores);
   let alicePlaces = [];
   for (let scoreAlice of alice) {
     // compare alice's scores against scoreBoard
     // assumption is that alice's scores are in increasing order
     // figure out what place alice 
-    console.log("Scoreboard: ", JSON.stringify(scoreBoard, null, 2), " scoreBoard.length: ", Object.keys(scoreBoard).length);
-    let tmpPlace = binarySearch(scoreAlice, Object.keys(scoreBoard), 0, Object.keys(scoreBoard).length -1);
-    console.log(`tmpPlace: ${tmpPlace}`);
+    // console.log("Scoreboard: ", arrScores, " scoreBoard.length: ", arrScores.length);
+    let tmpPlace = binarySearch(scoreAlice, arrScores, 0, arrScores.length -1);
+    // console.log(`tmpPlace: ${tmpPlace}`);
     alicePlaces.push(tmpPlace);
-
-    for (let key in scoreBoard) {
-      if (tmpPlace < Object.keys(scoreBoard).length) {
-        console.log('could have deleted');
-        delete scoreBoard[key];
-      } else {
-        break;
-      }
-      tmpPlace++;
+    if (tmpPlace < arrScores.length) {
+      arrScores = arrScores.slice(0, tmpPlace - 1);
     }
   }
 
@@ -95,19 +94,20 @@ Print  "number"s. The  "number" should indicate the rank of alice after playing 
  }
 
 
- // const highScores = [100, 100, 50, 40, 40, 20, 10];
+ const highScores = [100, 100, 50, 40, 40, 20, 10];
+ const alice = [5, 25, 50, 120];
  // const alice = [5, 25, 50, 120];
- // const alice = [5, 25, 50, 120];
- // const alice = [30, 30, 55];
- const highScores = [110, 101, 100, 100, 99, 98, 97, 96, 95, 80, 70, 65, 50, 42, 41, 40, 20, 10, 10];
- const alice = [9, 10, 25, 35, 50, 55, 56, 62, 75, 99, 100, 101, 120];
+ // const alice = [30, 30, 50, 120];
+ // const highScores = [110, 101, 100, 100, 99, 98, 97, 96, 95, 80, 70, 65, 50, 42, 41, 40, 20, 10, 10];
+ // const alice = [9, 10, 25, 35, 50, 55, 56, 62, 75, 99, 100, 101, 120];
  // const highScores = [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9];
  // const alice = [0, 1, 1, 1, 1, 1, 2, 2, 9, 11, 25];
  // const highScores = [7100, 100, 50, 40, 40, 20, 10];
  // const alice = [25, 45, 50, 120];
  // const highScores = [9, 8, 7];
  // const alice = [5, 7, 8, 9, 10];
- // const highScores = [1];
+ // const highScores = [3];
  // const alice = [1, 1, 1, 1, 1, 2];
+ // const alice = [1, 2, 3, 4];
 
  console.log(climbingLeaderboard(highScores, alice));
