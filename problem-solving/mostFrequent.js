@@ -6,10 +6,11 @@
 */
 
 const arrInts = [3, 1, 2, 3, 4, 5, 4, 2, 4, 99, 99, 99, 23, 99, 23, 99, 2, 99, 0, 99];
+      // arrInts = [];
 
 function mostFrequent(arr) {
   let freqTable = new Object();
-  let maxCtr = 0, maxElem = 0;
+  let maxCtr = 0, maxElem = null;
 
   for (elem of arr) {
     // initialize occurrences of element to one when number is encountered for the first time
