@@ -44,70 +44,49 @@ Print  "number"s. The  "number" should indicate the rank of alice after playing 
 
  */
 
- function binarySearch(val, arr, left, right) {
-   let mid = Math.trunc((left + right) / 2);
-   console.log(`left: ${left}, right: ${right}, mid ${mid}, arr[mid] = ${arr[mid]}`);
-   console.log(`val: ${val}`);
-   console.log(arr);
-
-   if (val === arr[mid]) {
-     return mid + 1;
-   }
-
-   if (left > right) {
-     // console.log(`val: ${val}`);
-     return left + 1;
-   } else if (val > arr[mid]) {
-     return binarySearch(val, arr, left, mid - 1);
-   } else {
-     return binarySearch(val, arr, mid + 1, right);
+function climbingLeaderboard(scores, alice) {
+ // attach places to scores, scores are passed in decreasing order
+ let arrScores = [];
+ for (let ind = 1; ind <= scores.length; ind++) {
+   // remove duplicates from array
+   if (scores[ind] !== scores[ind - 1]) {
+     arrScores.push(scores[ind - 1]);
    }
  }
+ // scores are originally in descending order, make ascending so the scoreboard could be checked 'on
+ // the fly' against alice's scores
+ arrScores.reverse(); 
 
- function climbingLeaderboard(scores, alice) {
-  // attach places to scores, scores are passed in decreasing order
-  let arrScores = [];
-  for (let ind = 1; ind <= scores.length; ind++) {
-    // remove duplicates from array
-    if (scores[ind] !== scores[ind - 1]) {
-      arrScores.push(scores[ind - 1]);
-    }
-  } 
-  // arrScores = arrScores.reverse();
-  // console.log("scoreBoard: ", JSON.stringify(scoreBoard, null, 2));
-  console.log("arrScores: ", arrScores);
-  let alicePlaces = [];
-  for (let j = 0; j < alice.length; j++) {
-    // compare alice's scores against scoreBoard
-    // assumption is that alice's scores are in increasing order
-    // figure out what place alice 
-    // console.log("Scoreboard: ", arrScores, " scoreBoard.length: ", arrScores.length);
-    let tmpPlace = binarySearch(alice[j], arrScores, 0, arrScores.length -1);
-    // console.log(`tmpPlace: ${tmpPlace}`);
-    alicePlaces.push(tmpPlace);
-    if (tmpPlace < arrScores.length) {
-      arrScores = arrScores.slice(0, tmpPlace - 1);
-    }
-  }
+ let alicePlaces = [], posBoard = 0;
+ for (let i = 0; i < alice.length; i++) {
+   // compare alice's scores against scoreBoard
+   // assumption is that alice's scores are in increasing order
+   // figure out what place alice 
+   while (alice[i] >= arrScores[posBoard]){
+     posBoard++;
+   }
 
-   return alicePlaces;
+   alicePlaces.push(arrScores.length - posBoard + 1);
  }
 
+  return alicePlaces;
+}
 
- const highScores = [100, 100, 50, 40, 40, 20, 10];
- const alice = [5, 25, 50, 120];
- // const alice = [5, 25, 50, 120];
- // const alice = [30, 30, 50, 120];
- // const highScores = [110, 101, 100, 100, 99, 98, 97, 96, 95, 80, 70, 65, 50, 42, 41, 40, 20, 10, 10];
- // const alice = [9, 10, 25, 35, 50, 55, 56, 62, 75, 99, 100, 101, 120];
- // const highScores = [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9];
- // const alice = [0, 1, 1, 1, 1, 1, 2, 2, 9, 11, 25];
- // const highScores = [7100, 100, 50, 40, 40, 20, 10];
- // const alice = [25, 45, 50, 120];
- // const highScores = [9, 8, 7];
- // const alice = [5, 7, 8, 9, 10];
- // const highScores = [3];
- // const alice = [1, 1, 1, 1, 1, 2];
- // const alice = [1, 2, 3, 4];
 
- console.log(climbingLeaderboard(highScores, alice));
+// const highScores = [100, 100, 50, 40, 40, 20, 10];
+// const alice = [5, 25, 50, 120];
+// const alice = [5, 25, 50, 120];
+// const alice = [30, 30, 50, 120];
+// const highScores = [110, 101, 100, 100, 99, 98, 97, 96, 95, 80, 70, 65, 50, 42, 41, 40, 20, 10, 10];
+// const alice = [9, 10, 25, 35, 50, 55, 56, 62, 75, 99, 100, 101, 120];
+const highScores = [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9];
+const alice = [1, 1, 1, 1, 1, 1, 2, 2, 9, 11, 25];
+// const highScores = [7100, 100, 50, 40, 40, 20, 10];
+// const alice = [25, 45, 50, 120];
+// const highScores = [9, 8, 7];
+// const alice = [5, 7, 8, 9, 10];
+// const highScores = [45, 43, 40, 33, 32, 30];
+// const alice = [29, 29, 31];
+// const alice = [1, 2, 3, 4];
+
+console.log(climbingLeaderboard(highScores, alice));
