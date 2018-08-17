@@ -46,16 +46,12 @@ Print  "number"s. The  "number" should indicate the rank of alice after playing 
 
  function binarySearch(val, arr, left, right) {
    let mid = Math.trunc((left + right) / 2);
-   // console.log(`left: ${left}, right: ${right}, mid ${mid}, arr[mid] = ${arr[mid]}`);
-   // console.log(`val: ${val}`);
-   // console.log(arr);
 
    if (val === arr[mid]) {
      return mid + 1;
    }
 
    if (left > right) {
-     // console.log(`val: ${val}`);
      return left + 1;
    } else if (val > arr[mid]) {
      return binarySearch(val, arr, left, mid - 1);
@@ -74,17 +70,14 @@ Print  "number"s. The  "number" should indicate the rank of alice after playing 
     }
   } 
 
-  // console.log("scoreBoard: ", JSON.stringify(scoreBoard, null, 2));
-  // console.log("arrScores: ", arrScores);
   let alicePlaces = [];
   for (let j = 0; j < alice.length; j++) {
     // compare alice's scores against scoreBoard
     // assumption is that alice's scores are in increasing order
     // figure out what place alice 
-    // console.log("Scoreboard: ", arrScores, " scoreBoard.length: ", arrScores.length);
     let tmpPlace = binarySearch(alice[j], arrScores, 0, arrScores.length -1);
-    // console.log(`tmpPlace: ${tmpPlace}`);
     alicePlaces.push(tmpPlace);
+    
     if (tmpPlace < arrScores.length) {
       arrScores = arrScores.slice(0, tmpPlace - 1);
     }

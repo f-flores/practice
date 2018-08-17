@@ -45,7 +45,7 @@ Print  "number"s. The  "number" should indicate the rank of alice after playing 
  */
 
 function climbingLeaderboard(scores, alice) {
- // attach places to scores, scores are passed in decreasing order
+ // attach 'places' (e.g. 1st place, 2nd place...) to scores, scores are passed in decreasing order
  let arrScores = [];
  for (let ind = 1; ind <= scores.length; ind++) {
    // remove duplicates from array
@@ -60,8 +60,6 @@ function climbingLeaderboard(scores, alice) {
  let alicePlaces = [], posBoard = 0;
  for (let i = 0; i < alice.length; i++) {
    // compare alice's scores against scoreBoard
-   // assumption is that alice's scores are in increasing order
-   // figure out what place alice 
    while (alice[i] >= arrScores[posBoard]){
      posBoard++;
    }

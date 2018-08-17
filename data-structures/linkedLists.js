@@ -103,9 +103,12 @@ class LinkedList {
         this.length--;
         break; //removed node, break out of loop
       }
+      
       prevPtr = nodePtr;
       nodePtr = nodePtr.next;
-      if (nodePtr) nextPtr = nodePtr.next;
+
+      if (nodePtr)
+        nextPtr = nodePtr.next;
     }
 
     return this;

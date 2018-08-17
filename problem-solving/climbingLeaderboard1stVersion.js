@@ -46,13 +46,13 @@ Print  "number"s. The  "number" should indicate the rank of alice after playing 
 
  function climbingLeaderboard(scores, alice) {
   // attach places to scores, scores are passed in decreasing order
-  let scoreBoard = {}, place = 1, maxScore = -1;
+  let scoreBoard = {}, place = 1;
   for (let score of scores) {
     if (!scoreBoard[score]) {
       scoreBoard[score] = place++;
     }
   } 
-  console.log("scoreBoard: ", JSON.stringify(scoreBoard, null, 2));
+
   let alicePlaces = [];
   for (let scoreAlice of alice) {
     // compare alice's scores against scoreBoard
@@ -63,8 +63,6 @@ Print  "number"s. The  "number" should indicate the rank of alice after playing 
       let foundLesser = false, foundGreater = false;
 
       for (let score in scoreBoard) {
-        console.log(`aliceScore: ${scoreAlice}, score: ${score}, place compared: ${scoreBoard[score]}, tmpPlace: ${tmpPlace}`);
-        console.log("scoreBoard: ", JSON.stringify(scoreBoard, null, 2));
         if (scoreAlice < score) {
           tmpPlace = scoreBoard[score] + 1;
           foundLesser = true;

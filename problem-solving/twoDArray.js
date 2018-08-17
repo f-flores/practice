@@ -81,7 +81,6 @@ The hourglass with the maximum sum () is:
 
 // Complete the hourglassSum function below.
 function hourglassSum(arr) {
-  let arrHourglassSums = [];
   const MaxRowHour = 3, MaxColHour = 3;
   let maxISum = Number.MIN_SAFE_INTEGER;
   
