@@ -8,19 +8,19 @@
     constructor(letter = '') {
       this.letterKey = letter;
       this.children = new Map();
-      this.end = false;
+      this.endWord = false;
     }
 
-    setEnd() {
-      this.end = true;
+    setEndWord() {
+      this.endWord = true;
     }
 
-    unsetEnd() {
-      this.end = false;
+    unsetEndWord() {
+      this.endWord = false;
     }
 
-    isEnd() {
-      return this.end;
+    isEndWord() {
+      return this.endWord;
     }
   }
 
@@ -32,7 +32,7 @@
 
     insert(wrd, node = this.root) {
       if (wrd.length === 0) {
-        node.setEnd();
+        node.setEndWord();
         return;
       } else {
         // if letter node does not exist, create node and connect newly created child
@@ -48,9 +48,9 @@
 
     isWord(wrd, node = this.root) {
       // start searching for word at root
-      // check current character against trie, if got to end of word return isEnd() boolean
+      // check current character against trie, if got to end of word return isEndWord() boolean
       if (wrd.length === 0) {
-        return node.isEnd();
+        return node.isEndWord();
       } else {
         // check wrd character by character by traversing trie
         if (node.children.has(wrd[0])) {
@@ -64,13 +64,55 @@
     // returns true if parent map could delete the entry;
     remove(wrd, node = this.root, index = 0) {
       // first, check if at end of word
-      if (index === wrd.length) {
-        if (!node.isEnd())
+      if (wrd.length === index) {
+        if (!node.isEndWord()) {
           return false;
+        }
+        node.unsetEndWord();
+
+        // if node has no other child mapping, next line returns true
+        return node.children.size === 0;
       }
+
+      // second, check current character
+      let ch = wrd[index];
+
+      if (node.children.has(ch) === false) {
+        return false;
+      }
+
+      // determine whether node should be deleted
+      let shouldDelete = this.remove(wrd, node.children.get(ch), index + 1);
+
+      // third, if true, delete mapping of character and TrieNode map
+      if (shouldDelete) {
+        node.children.delete(ch);
+
+        // return true if no mappings are left in the map
+        return node.children.size === 0;
+      }
+
+      return false;
     }
 
-    print() {
+    print(node = this.root, s = "") {
+      if (node === null) {
+        return;
+      }
+
+      // if end of word print word, note that this function keeps on looking for 
+      // words on this path
+      if (node.isEndWord()) {
+        console.log(s);
+      } 
+
+      for (let i = 0; i < 26; i++) {
+        let ch = String.fromCharCode(i + 97);
+        if (node.children.has(ch)) {
+          // add character to array of chars, recurse
+          this.print(node.children.get(ch), s.concat(ch));
+        }
+      }
 
     }
   }
@@ -84,15 +126,24 @@
     trie.insert("nag");
     trie.insert("not");
     trie.insert("no");
+    trie.insert("new");
     trie.insert("help");
+    trie.insert("note");
+    trie.remove("not");
 
-    console.log("==== trie ====");
-    console.log(trie, null, 2);
+    console.log(trie.isWord("not"));
+    console.log(trie.isWord("note"));
+    // trie.remove("help");
+    console.log(trie.isWord("help"));
+    
+
     for (var [key, value] of trie.root.children.entries()) {
       console.log(`key ${key}: value -- ${value}`);
     }
-    console.log(trie.isWord("not"));
-    console.log(trie.isWord("note"));
+
+    console.log("==== trie ====");
+    console.log(trie, null, 2);
+    trie.print();
   }
 
   testTrie();
