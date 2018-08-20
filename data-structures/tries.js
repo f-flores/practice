@@ -32,19 +32,21 @@
 
     insert(wrd, node = this.root) {
       if (wrd.length === 0) {
+        // no more letters left in word, set end of word to true
         node.setEndWord();
         return;
-      } else {
-        // if letter node does not exist, create node and connect newly created child
-        // node to trie structure
-        if (!node.children.has(wrd[0])) {
-          let childNode = new TrieNode(wrd[0]);
-          node.children.set(wrd[0], childNode);
-        }
-        // insert 'remaining part' of the word into trie structure using substring method
-        return this.insert(wrd.substring(1), node.children.get(wrd[0]));
+      } 
+
+      // if letter node does not exist, create node and connect newly created child
+      // node to trie structure
+      if (!node.children.has(wrd[0])) {
+        let childNode = new TrieNode(wrd[0]);
+        node.children.set(wrd[0], childNode);
       }
+      // insert 'remaining part' of the word into trie structure using substring method
+      return this.insert(wrd.substring(1), node.children.get(wrd[0]));
     }
+
 
     isWord(wrd, node = this.root) {
       // start searching for word at root
@@ -52,7 +54,7 @@
       if (wrd.length === 0) {
         return node.isEndWord();
       } else {
-        // check wrd character by character by traversing trie
+        // check wrd character by character by following 'wrd' path
         if (node.children.has(wrd[0])) {
           return this.isWord(wrd.substring(1), node.children.get(wrd[0]));
         } else {
@@ -106,12 +108,9 @@
         console.log(s);
       } 
 
-      for (let i = 0; i < 26; i++) {
-        let ch = String.fromCharCode(i + 97);
-        if (node.children.has(ch)) {
-          // add character to array of chars, recurse
-          this.print(node.children.get(ch), s.concat(ch));
-        }
+      for (let key of node.children.keys()) {
+        // concatenate key character to string, recurse
+        this.print(node.children.get(key), s.concat(key));
       }
 
     }
