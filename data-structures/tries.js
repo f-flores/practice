@@ -53,14 +53,15 @@
       // check current character against trie, if got to end of word return isEndWord() boolean
       if (wrd.length === 0) {
         return node.isEndWord();
+      } 
+      
+      // check wrd character by character by following 'wrd' path
+      if (node.children.has(wrd[0])) {
+        return this.isWord(wrd.substring(1), node.children.get(wrd[0]));
       } else {
-        // check wrd character by character by following 'wrd' path
-        if (node.children.has(wrd[0])) {
-          return this.isWord(wrd.substring(1), node.children.get(wrd[0]));
-        } else {
-          return false;
-        }
+        return false;
       }
+      
     }
 
     // returns true if parent map could delete the entry;

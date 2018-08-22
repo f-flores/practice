@@ -42,7 +42,8 @@ class LinkedList {
     let newHead = this.head.next;  // have a holder point to next value
     this.head = newHead;
     
-    if (!this.head) this.tail = null; // empty list, set tail back to null
+    if (!this.head) 
+      this.tail = null; // empty list, set tail back to null
 
     this.length--;
 
