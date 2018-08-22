@@ -237,31 +237,16 @@ function makeId(len)
 }
 
 
-// Build Linked List
-const myList = new LinkedList("second");
-myList.addToHead("third");
-myList.addToHead("fourth");
-myList.removeFromHead(); myList.removeFromHead();myList.removeFromHead();
-
-// console.log(JSON.stringify(myList, null, 2));
-
-const myList2 = new LinkedList();
-myList2.addToHead("hello");
-myList2.addToHead("first");
-console.log(JSON.stringify(myList2, null, 2));
-
 const myHash = new HashTable();
 const numEntries = 30; // number of entries to be entered in hash table
 let listEntries = [];
 
 // generate random strings
 for (let index = 0; index < numEntries; index++) {
-  listEntries[index] = makeId(Math.floor(Math.random() * numEntries));
-  // listEntries[index] = makeId(numEntries / 2);
+  listEntries[index] = makeId(Math.floor(Math.random() * 10) + 1);
   const hashIndex = myHash.hashFn(listEntries[index]);
   myHash.hashInsert(listEntries[index], hashIndex);
 }
-
 
 console.log(JSON.stringify(myHash, null, 2));
 if (numEntries >= 5)
