@@ -121,13 +121,13 @@ class LinkedList {
 // Hash table
 //
 // ----------------------------------------------
-const HASH_MAP_SIZE = 10;
+const HASH_MAP_SIZE = 20;
 class HashTable {
   constructor() {
     // set array to maximum hash map size
     this.hashArr = new Array(HASH_MAP_SIZE);
 
-    // each entry in the hash table is a linked list
+    // each entry in the hash table is a linked list in order to handle collisions
     let index = 0;
     while (index < HASH_MAP_SIZE) {
       this.hashArr[index] = new LinkedList();
@@ -220,6 +220,23 @@ class HashTable {
 
 }
 
+// -----
+// random string generator
+//  https://www.w3resource.com/javascript-exercises/javascript-function-exercise-20.php
+// ==========================================================================================
+function makeId(len)
+{
+  let text = "";
+  const char_list = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+  for(let i=0; i < len; i++ )
+  {  
+    text += char_list.charAt(Math.floor(Math.random() * char_list.length));
+  }
+  return text;
+}
+
+
 // Build Linked List
 const myList = new LinkedList("second");
 myList.addToHead("third");
@@ -234,21 +251,19 @@ myList2.addToHead("first");
 console.log(JSON.stringify(myList2, null, 2));
 
 const myHash = new HashTable();
-let person1 = "Matt";
-let person2 = "Kate";
-let person3 = "Jen";
-let person4 = "Matt";
+const numEntries = 30; // number of entries to be entered in hash table
+let listEntries = [];
 
-let hInd = myHash.hashFn(person1);
-myHash.hashInsert(person1, hInd);
-hInd = myHash.hashFn(person2);
-myHash.hashInsert(person2, hInd);
-hInd = myHash.hashFn(person3);
-myHash.hashInsert(person3, hInd);
-myHash.remove(person2);
-hInd = myHash.hashFn(person4);
-myHash.hashInsert(person4, hInd);
+// generate random strings
+for (let index = 0; index < numEntries; index++) {
+  listEntries[index] = makeId(Math.floor(Math.random() * numEntries));
+  // listEntries[index] = makeId(numEntries / 2);
+  const hashIndex = myHash.hashFn(listEntries[index]);
+  myHash.hashInsert(listEntries[index], hashIndex);
+}
 
 
 console.log(JSON.stringify(myHash, null, 2));
+if (numEntries >= 5)
+  console.log(listEntries[numEntries - 5], myHash.getKey(listEntries[numEntries - 5]));
 
