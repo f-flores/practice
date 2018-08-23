@@ -54,7 +54,7 @@
       if (wrd.length === 0) {
         return node.isEndWord();
       } 
-      
+
       // check wrd character by character by following 'wrd' path
       if (node.children.has(wrd[0])) {
         return this.isWord(wrd.substring(1), node.children.get(wrd[0]));
@@ -64,6 +64,8 @@
       
     }
 
+    // Source of remove function (java version):
+    // https://www.baeldung.com/trie-java
     // returns true if parent map could delete the entry;
     remove(wrd, node = this.root, index = 0) {
       // first, check if at end of word
