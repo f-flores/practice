@@ -34,7 +34,7 @@ class Queue {
   // dequeue
   dequeue() {
     // check for underflow
-    if (this.size < 0) {
+    if (this.size <= 0) {
       console.log("Queue is empty. No items to dequeue.")
       return;
     }
