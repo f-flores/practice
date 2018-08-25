@@ -1,4 +1,3 @@
-
 // -------------------------------------------------
 // 
 // Implementation of Stack Data structure
@@ -26,7 +25,7 @@ class Stack {
       this.size = value === '' ? 0 : 1;
   }
 
-  isEmptyList() {
+  isEmptyStack() {
     return this.size === 0;
   }
 
@@ -63,7 +62,7 @@ class Stack {
   }
 
   peek() {
-    return this.head;
+    return this.head.value;
   }
 
 
@@ -90,7 +89,7 @@ myStack.push("second element");
 myStack.push("third element");
 myStack.push("fourth element");
 let topElem = myStack.peek();
-console.log(`topElem: ${topElem.value}`);
+console.log(`topElem: ${topElem}`);
 myStack.pop();
 
 // Print out linked list
