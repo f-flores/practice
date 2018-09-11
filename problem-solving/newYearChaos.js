@@ -74,9 +74,21 @@ No person can bribe more than two people, so its not possible to achieve the inp
 */
 
 function minimumBribe(q) {
-  return "min bribe";
+  let rSum = 0; // running sum
+
+  for (let i = 0; i < q.length; i++) {
+    const diff = q[i] - i - 1;
+    if (diff > 2) { // maximum number of moves exceeded
+      return "Too chaotic";
+    }
+    if (diff > 0) {
+      rSum += diff;
+    }
+  }
+
+  return rSum;
 }
 
-const qArray = [1, 2, 3, 4, 5];
+const qArray = [1, 2, 5, 3, 7, 8, 6, 4];
 
 console.log(minimumBribe(qArray));
