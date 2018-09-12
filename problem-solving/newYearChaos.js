@@ -89,6 +89,6 @@ function minimumBribe(q) {
   return rSum;
 }
 
-const qArray = [1, 2, 5, 3, 7, 8, 6, 4];
+const qArray = [2,1,5,3,4];
 
 console.log(minimumBribe(qArray));
