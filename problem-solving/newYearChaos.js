@@ -81,14 +81,14 @@ function minimumBribe(q) {
     if (diff > 2) { // maximum number of moves exceeded
       return "Too chaotic";
     }
-    if (diff > 0) {
+    if (diff < 0) {
       rSum += diff;
     }
   }
 
-  return rSum;
+  return Math.abs(rSum);
 }
 
-const qArray = [2,1,5,3,4];
+const qArray = [1,2,5,3,7,8,6,4];
 
 console.log(minimumBribe(qArray));
