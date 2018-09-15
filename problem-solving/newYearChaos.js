@@ -80,7 +80,9 @@ function minimumBribe(q) {
     if (diff > 2) { // maximum number of moves exceeded
       return "Too chaotic";
     }
-    if (diff < 0) {
+    if (diff < 0 || (q[i] < q[i+1])) {
+      // figure out how many our out of order and then 
+      // by how much out of order
       rSum += diff;
     }
   }
