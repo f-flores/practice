@@ -70,72 +70,71 @@ No person can bribe more than two people, so its not possible to achieve the inp
 
 */
 
-function inOrder(arr, index, next) {
-  let inOrder = true;
-
-  if (index === 0 && arr.length > 1) {
-    console.log(`index + 1, arr[index]: ${arr[index]}`);
-    if (arr[index] > arr[index + 1])
-      inOrder = false;
-  } else if (index === arr.length - 1) {
-    console.log(`index - 1, arr[index]: ${arr[index]}`);
-    if (arr[index] < arr[index - 1])
-      inOrder = false;
-  } else if (arr[index] < arr[index - 1] || arr[index] > arr[index + 1]) {
-    console.log(`normal case, arr[index]: ${arr[index]}`);
-    inOrder = false;
-  }
-
-  if (!next.includes(arr[index]) && Math.abs(arr[index] - next[next.length - 1]) <= 1) {
-    next.push(arr[index]);
-  }
-
-  return inOrder;
-}
-
-function outOfOrder(arr, index, next) {
-  let outOfOrder = false;
-  if (!next.includes(arr[index]) ) {
-    if (arr[index] <= next[next.length - 1] + 2) {
-      next.push(arr[index]);
-      // test that arr[index + 1] is within array range
-      if (index + 1 < arr.length) {
-        if (arr[index] > arr[index + 1]) {
-          console.log(`out of order here ${arr[index]}`);
-          outOfOrder = true;
+// check for ascending order array
+function isSorted(arr) {
+  if (arr.length > 1) {
+    for (let i = 0; i < arr.length; i++) {
+      if (i + 1 <= arr.length) {
+        if (arr[i+1] < arr[i]) {
+          return false;
         }
       }
-    } else {
-      console.log(`out of order here ${arr[index]}`);
-      outOfOrder = true;
     }
-  } 
+  }
+  return true;
+}
 
-  return outOfOrder;
+function mySwap(arr, ind1, ind2) {
+  const tmp = arr[ind1];
+
+  arr[ind1] = arr[ind2];
+  arr[ind2] = tmp;
 }
 
 function minimumBribes(q) {
-  let rSum = 0; // running sum
-  let nextNum = [1];
+  let nSwaps = 0, currSwaps = 0, pos = 0; // swaps
+  let tooChaotic = false, lineInOrder = false;
 
-  for (let i = 0; i < q.length; i++) {
-    if (!inOrder(q, i, nextNum)) {
-      const diff = Math.abs(i + 1 - q[i]);
-      rSum += diff;
-      if (diff > 2) {
-        return "Too chaotic";
+  if (q.length > 1) {
+    while (pos < q.length && !lineInOrder) {
+      if (pos + 1 < q.length) {
+        if (q[pos] > q[pos + 1]) {
+          mySwap(q, pos, pos + 1);
+          currSwaps++;
+          console.log(`SWAPPED currSwaps: ${currSwaps}, pos: ${pos}, q: ${q}`);
+          if (currSwaps > 2) {
+            console.log("Too chaotic");
+            tooChaotic = true;
+            break;
+          }
+          
+        } else {
+          nSwaps += currSwaps;
+          console.log(`nSwaps: ${nSwaps}, q: ${q}`);
+          currSwaps = 0;
+          // continue;
+        }
       }
-       console.log(`diff: ${diff}`);
+      pos++;
+      lineInOrder = isSorted(q);
+      console.log(`lineInOrder: ${lineInOrder}`);
+      if (pos === q.length && !lineInOrder) {
+        pos = 0;
+        console.log(`restart line`);
+      } else if (lineInOrder) {
+        nSwaps += currSwaps;
+      }
     }
-    console.log(`nextNum: ${nextNum}`);
+ 
   }
 
-  return rSum;
+  if (!tooChaotic) console.log(nSwaps);
 }
 
-// const qArray = [1,2,5,3,7,8,6,4];
+const qArray = [1,2,5,3,7,8,6,4];
 // const qArray = [2, 5, 1, 3, 4];
-const qArray = [2, 1, 5 ,3 ,4];
+// const qArray = [2, 1, 5 ,3 ,4];
 // const qArray = [1,2,5,3,4,7,8,6]
 
-console.log(minimumBribes(qArray));
+// console.log(minimumBribes(qArray));
+minimumBribes(qArray);
