@@ -71,13 +71,14 @@ No person can bribe more than two people, so its not possible to achieve the inp
 */
 
 // check for ascending order array
-function isSorted(arr) {
+function isSorted(arr, pos) {
+  console.log(`isSorted: pos: ${pos} arr: ${arr}`);
   if (arr.length > 1) {
-    for (let i = 0; i < arr.length; i++) {
-      if (i + 1 <= arr.length) {
-        if (arr[i+1] < arr[i]) {
-          return false;
-        }
+    if (pos >= arr.length - 1) pos = 0;
+    for (let i = pos; i < arr.length; i++) {
+      if (arr[i] < arr[i-1]) {
+        console.log(`in isSorted, pos: ${pos} i: ${i}, arr[i]: ${arr[i]}`);
+        return false;
       }
     }
   }
@@ -96,7 +97,7 @@ function minimumBribes(q) {
   let tooChaotic = false, lineInOrder = false;
 
   if (q.length > 1) {
-    while (pos < q.length && !lineInOrder) {
+    while (!lineInOrder) {
       if (pos + 1 < q.length) {
         if (q[pos] > q[pos + 1]) {
           mySwap(q, pos, pos + 1);
@@ -110,13 +111,13 @@ function minimumBribes(q) {
           
         } else {
           nSwaps += currSwaps;
+          // pos++;
           console.log(`nSwaps: ${nSwaps}, q: ${q}`);
           currSwaps = 0;
-          // continue;
         }
       }
       pos++;
-      lineInOrder = isSorted(q);
+      lineInOrder = isSorted(q, pos);
       console.log(`lineInOrder: ${lineInOrder}`);
       if (pos === q.length && !lineInOrder) {
         pos = 0;
