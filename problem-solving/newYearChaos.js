@@ -101,7 +101,7 @@ function mySwap(arr, ind1, ind2) {
 
 function minimumBribes(q) {
   let nSwaps = 0, currSwaps = 0, pos = 0; // swaps
-  let tooChaotic = false, lineInOrder = false, swapped = false;
+  let lineInOrder = false, swapped = false;
 
   if (q.length > 1) {
     while (!lineInOrder) {
@@ -113,7 +113,6 @@ function minimumBribes(q) {
           console.log(`SWAPPED currSwaps: ${currSwaps}, pos: ${pos}, q: ${q}`);
           if (currSwaps > 2) {
             console.log("Too chaotic");
-            tooChaotic = true;
             break;
           }
           
@@ -133,12 +132,12 @@ function minimumBribes(q) {
         console.log(`restart line`);
       } else if (lineInOrder) {
         nSwaps += currSwaps;
+        console.log(nSwaps);
       }
     }
  
   }
 
-  if (!tooChaotic) console.log(nSwaps);
 }
 
 const qArray = [1,2,5,3,7,8,6,4];
