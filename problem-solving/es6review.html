@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Testing Closures</title>
+</head>
+<body>
+  <h2>Testing Closures</h2>
+  <script type="text/javascript">
+
+    for (var i = 0; i < 3; i++) {
+      setTimeout(() => {console.log(i)}, 1000);
+    }
+
+    console.log('after var loop 1');
+
+    for (let i = 0; i < 3; i++) {
+      setTimeout(() => {console.log(i)}, 1000);
+    }
+
+    console.log('after let loop 2');
+
+    for (var j = 0; j < 3; j++) {
+      ((j) =>
+        {
+          setTimeout(()=> {console.log(j);}, 1000);
+        })(j);
+    }
+    console.log('after fixed var loop');
+
+    // block scoping
+    const aconst = 356;
+    fn = () => {
+      let x = 0;
+      if (true) {
+        let x = "string x";
+        console.log(`${x} ${aconst}`);
+      }
+    }
+
+    function newMethods() {
+      console.log("hello".repeat(3));
+      console.log("hello".includes("ll"));
+      console.log("hello".startsWith("he"));
+      console.log("\u1E9B\u0323".normalize("NFC"));
+    }
+
+    binaryOctal = () => {
+      let bin = 0b1010010;
+      let oct = 0o755;
+
+      console.log(`bin: ${bin}, oct: ${oct}`);
+    }
+
+    class Circle {
+    // Constructor
+      constructor (radius) {
+        this.radius = radius
+      }
+    
+    // Methods
+      getArea () {
+        return Math.PI * 2 * this.radius
+      }
+    
+    // Calling superclass methods
+      expand (n) {
+        return super.expand(n) * Math.PI
+      }
+    
+    // Static methods
+      static createFromDiameter(diameter) {
+        return new Circle(diameter / 2)
+      }
+    }
+
+    fn();
+    newMethods();
+    binaryOctal();
+
+    let circle = new Circle(4);
+
+    console.log(`circle (radius ${circle.radius}) area: ${circle.getArea()}`);
+
+    // exponents
+    const byte = 2 ** 8; // same as Math.pow(2, 8)
+    console.log(`2 ** 8: ${byte}`);
+
+    // destructuring from Array
+    const [first, last] = ["Benjamin", "Franklin"];
+    console.log(`first: ${first}, last: ${last}`);
+
+    // destructuring from object
+    let {author, title} = {
+      "author": "Mark Twain",
+      "title": "The Adventures of Tom Sawyer"
+    };
+    console.log(`author: ${author}, title: ${title}`);
+
+    // default values
+    const scores = [22, 33];
+    const [math = 50, sci = 50, arts = 50] = scores;
+    console.log(`scores: ${scores}`);
+
+    // function arguments
+    function greet({name, greeting}) {
+      console.log(`${greeting}, ${name}`);
+    }
+
+    greet({"name": "Larry", "greeting": "ahoy"});
+    </script>
+</body>
+</html>
