@@ -110,6 +110,50 @@
     }
 
     greet({"name": "Larry", "greeting": "ahoy"});
+
+    const songs = [{title: "Thriller", artist: "Michael Jackson"},
+                   {title: "Hello", artist: "Lionel Ritchie"},
+                   {title: "Tell Her About It", artist: "Billy Joel"}];
+
+    for (let {title, artist} of songs) {
+      console.log(`${artist}: ${title}`);
+    }
+
+    // default values
+    function greet2({name = "Brian"} = {}) {
+      console.log(`name: ${name}`);
+    }
+    greet2();
+    greet2({name: "Larry"});
+
+    // reassigning variables
+    printCoordinates = ({left: x, top: y}) => {
+      console.log(`x: ${x}, y: ${y}`);
+    }
+    printCoordinates({left: 25, top: 90});
+
+    function myFib(n) {
+      if (n === 0 || n === 1) {
+        return 1;
+      }
+    
+      return myFib(n - 1) + myFib(n -2 );
+    }
+    let mArr = [];
+    console.log(`myFib: ${myFib(7)}`);
+
+    function decToBin(dec) {
+      let binStr = '';
+      while (dec >= 1) {
+        const binChar = dec % 2;
+        binStr += binChar.toString(); 
+        dec = Math.trunc(dec / 2);
+      }
+      return binStr.split("").reverse().join("");
+    }
+    const num = 25;
+    console.log(`decToBin(${num}): ${decToBin(num)}`);
+
     </script>
 </body>
 </html>
