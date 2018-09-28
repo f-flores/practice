@@ -154,6 +154,13 @@
     const num = 25;
     console.log(`decToBin(${num}): ${decToBin(num)}`);
 
+    const isPalindrome = (str) => {
+      str = str.replace(/\W/g, '').toLowerCase();
+      console.log(str + " in isPalindrome()");
+      return (str === str.split('').reverse().join(''));
+    }
+    console.log(`isPalindrome: ${isPalindrome("Madam, I'm Adam")}`);
+
     </script>
 </body>
 </html>
