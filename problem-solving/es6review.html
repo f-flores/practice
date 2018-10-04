@@ -10,18 +10,21 @@
   <h2>Testing Closures</h2>
   <script type="text/javascript">
 
+    // first loop with timeout, using var
     for (var i = 0; i < 3; i++) {
       setTimeout(() => {console.log(i)}, 1000);
     }
 
     console.log('after var loop 1');
 
+    // second loop with setTimeout, using let
     for (let i = 0; i < 3; i++) {
       setTimeout(() => {console.log(i)}, 1000);
     }
 
     console.log('after let loop 2');
 
+    // loop with setTimeout, using self-invoked and var
     for (var j = 0; j < 3; j++) {
       ((j) =>
         {
@@ -40,6 +43,7 @@
       }
     }
 
+    // javascript 6 new methods
     function newMethods() {
       console.log("hello".repeat(3));
       console.log("hello".includes("ll"));
@@ -47,6 +51,7 @@
       console.log("\u1E9B\u0323".normalize("NFC"));
     }
 
+    // binary and octal
     binaryOctal = () => {
       let bin = 0b1010010;
       let oct = 0o755;
