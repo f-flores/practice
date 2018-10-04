@@ -132,15 +132,22 @@
     }
     printCoordinates({left: 25, top: 90});
 
-    function myFib(n) {
+    function myFib(n, memo=[]) {
+      // check memoized array
+      if (memo[n]) {
+        return memo[n];
+      }
+
       if (n === 0 || n === 1) {
+        memo[n] = 1;
         return 1;
       }
-    
-      return myFib(n - 1) + myFib(n -2 );
+      let fib = myFib(n - 1, memo) + myFib(n -2, memo);
+      memo[n] = fib;
+      return memo[n];
     }
     let mArr = [];
-    console.log(`myFib: ${myFib(7)}`);
+    console.log(`myFib: ${myFib(20)}`);
 
     function decToBin(dec) {
       let binStr = '';
