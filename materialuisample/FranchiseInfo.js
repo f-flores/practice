@@ -8,6 +8,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Icon from "@material-ui/core/Icon";
+import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 // @material-ui icons
 import Business from '@material-ui/icons/Business';
 import ContactMail from "@material-ui/icons/ContactMail";
@@ -34,7 +35,13 @@ class FranchiseInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      checked: [1]
+      checked: [1],
+      franchise: {
+        name: "",
+        address: "",
+        phone: "",
+        email: "",
+      }
     };
     this.handleToggle = this.handleToggle.bind(this);
   }
@@ -56,6 +63,12 @@ class FranchiseInfo extends Component {
   componentDidMount() {
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
+  }
+  
+  handleChange = (event) => {
+    const { user } = this.state;
+    user[event.target.name] = event.target.value;
+    this.setState({...this.state, user });
   }
 
   render() {
@@ -88,6 +101,7 @@ class FranchiseInfo extends Component {
             placeholder: "Business Name..."
           }}
         />
+
         <CustomInput
           formControlProps={{
             fullWidth: true,
@@ -170,3 +184,19 @@ FranchiseInfo.propTypes = {
 };
 
 export default withStyles(styles)(FranchiseInfo);
+
+/*
+
+        <TextValidator
+          id="franchise-name"
+          name="franchiseName"
+          label="Business Name"
+          fullWidth
+          autoComplete="fname"
+          validators={['required']}
+          errorMessages={['this field is required']}
+          value={this.state.franchise.name}
+          onChange={this.handleChange}
+        />
+
+*/
