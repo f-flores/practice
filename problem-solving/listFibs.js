@@ -1,23 +1,24 @@
-var mem = [];
-mem[0] = 0;
-mem[1] = 1;
 
-function fib(n) {
+
+function fib(n, mem=[]) {
   var fibOfN;
   if (mem[n]) {
     return mem[n];
   }
 
   if (n <= 1) {
+    mem[n] = 1;
     fibOfN = mem[n];
   } else {
-    fibOfN = fib(n-1) + fib(n-2);
+    fibOfN = fib(n-1, mem) + fib(n-2, mem);
   }
   mem[n] = fibOfN;
   return fibOfN;
 }
 
-var n = 10;
-fibAnswer = fib(n);
-console.log("Fib(" + n + ") = " + fibAnswer);
-console.log("Fibonacci array: " + mem);
+let n = 10, memArr=[];
+fibAnswer = fib(n, memArr);
+// let memArr = fibAnswer;
+// console.log("Fib(" + n + ") = " + fibAnswer);
+// console.log(`Fibonacci array [1..${n}]: ${memArr.slice(0, memArr.length - 1)}`);
+console.log(`Fibonacci array [1..${n}]: ${memArr}`);
