@@ -91,6 +91,7 @@ class LinkedList {
     return this;
   }
 
+  // search for value in linked list
   findVal(val) {
     let listPntr = this.head;
 
@@ -103,6 +104,7 @@ class LinkedList {
     return listPntr;
   }
 
+  // if 'val' is in list, returns true; otherwise false
   hasVal(val) {
     let listPntr = this.head;
 
