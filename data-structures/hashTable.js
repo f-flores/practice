@@ -137,13 +137,13 @@ class HashTable {
     }
   }
 
-  // =============================================================
+  // ================================================================================
   // Javascript verson of djb2 and deciToBin hash functions and
   // http://pmav.eu/stuff/javascript-hashing-functions/source.html
   //
   // Decimal to Binary
   // Source: http://www.hscripts.com/scripts/JavaScript/decimal-binary-convertor.php
-  // =============================================================
+  // ================================================================================
   deciToBin(arg) {
     let res1 = 999;
     let args = arg;
