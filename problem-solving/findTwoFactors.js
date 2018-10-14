@@ -18,9 +18,11 @@ function findTwoFactors(arr, product) {
       // look in dictionary for factor such that of arr[i] * otherFactor = product
       const otherFactor = product / arr[i];
       // console.log('factors: ', JSON.stringify(factors));
+
       if (factors[otherFactor]) {
         const pair = [];
         pair.push(otherFactor, arr[i]);
+        
         // avoid placing duplicate pairs
         if (!pairsFound[otherFactor]) {
           result.push(pair);
