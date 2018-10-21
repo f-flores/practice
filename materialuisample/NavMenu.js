@@ -5,24 +5,22 @@
 // ==========================================================
 
 import React, {Component} from "react";
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-// import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import MenuList from '@material-ui/core/Menu';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
+// import green from '@material-ui/core/colors/green';
 import pink from '@material-ui/core/colors/pink';
-import red from '@material-ui/core/colors/red';
 import { darken, lighten } from 'material-ui/styles/colorManipulator';
+import { compose } from 'recompose';
 
 import {AppName} from "../constants/Consts";
 
@@ -42,39 +40,24 @@ const styles = {
 
 const themeDefault = createMuiTheme();
 
-const primary = blue[500];
-
 const theme = createMuiTheme({
   overrides: {
     MuiMenuItem: {
       root: {
         color: 'white',
-        colorText: 'white !important',
-        backgroundColor: 'red !important',
+        fontWeight: 'bold',
       },
       selected: {
-        // Does not work:
-        // background: 'red',
-        color: 'white',
-        // Does not work:
-        // backgroundColor: 'red',
-
-        // Works (without the need for !important)
-        // background: 'linear-gradient(45deg, red 30%, orange 90%)',
-
-        // Works (must use !important):
-        // backgroundColor: 'red !important',
-
-        // Works (must use !important):
-        // background: 'red !important',
+        color: 'lightgray !important',
+        backgroundColor: 'darkblue !important',
       },
     },
   },
   palette: {
     primary: { 
       light: blue[300], 
-      main: blue[500], 
-      dark: blue[700],
+      main: blue[600], 
+      dark: blue[800],
       textColor: '#fff',
     },
     secondary: {
@@ -87,26 +70,62 @@ const theme = createMuiTheme({
   },
 });
 
-/* safe measure to avoid properties collisions */
+// safe measure to avoid properties collisions
 const Login = props => <Link to="/login" {...props} />
-const Home = props => <Link to="/public" {...props} />
-const Public = props => <Link to="/public" {...props} />
-const Protected = props => <Link to="/protected" {...props} />
+const Home = props => <Link to="/" {...props} />
+const About = props => <Link to="/about" {...props} />
+const Dashboard = props => <Link to="/dashboard" {...props} />
 const Signup = props => <Link to="/signup" {...props} />
 const Logout = props => <Link to="/logout" {...props} />
 const SDashboard = props => <Link to="/superdashboard" {...props} />
+const FDashboard = props => <Link to="/fadmindashboard" {...props} />
+const EmpDashboard = props => <Link to="/edashboard" {...props} />
+
 
 // ---
 // functional component that renders Admin nav item if logged in user is an administrator
 // ---------------------------------------------------------------------------------------
-function AdminBar(props) {
-  const isAdmin = props.isAdmin;
-  console.log(`NavMenu.js AdminBar props.isAdmin: ${props.isAdmin}`);
-  if (isAdmin) {
+function SAdminBar(props) {
+  const isSuperAdmin = props.isSuperAdmin,
+        pathname = props.pathname;
+
+  // console.log(`NavMenu.js SAdminBar props.isAdmin: ${props.isAdmin}`);
+  if (isSuperAdmin) {
     return (
     <Toolbar>
-      <MenuItem component={Protected}>Admin</MenuItem>
-      <MenuItem component={SDashboard}>S Dashboard</MenuItem>
+      {/* <MenuItem component={Dashboard} selected={"/dashboard" === pathname}>Admin</MenuItem> */}
+      <MenuItem component={SDashboard} selected={"/superdashboard" === pathname}>S Dashboard</MenuItem>
+    </Toolbar>
+    );
+  }
+  return null;
+}
+
+function FAdminBar(props) {
+  const isFAdmin = props.isFAdmin,
+        pathname = props.pathname;
+
+  // console.log(`NavMenu.js SAdminBar props.isAdmin: ${props.isAdmin}`);
+  if (isFAdmin) {
+    return (
+    <Toolbar>
+      {/* <MenuItem component={Dashboard} selected={"/dashboard" === pathname}>Admin</MenuItem> */}
+      <MenuItem component={FDashboard} selected={"/fadmindashboard" === pathname}>F Dashboard</MenuItem>
+    </Toolbar>
+    );
+  }
+  return null;
+}
+
+function EmployeeBar(props) {
+  const isEmployee = props.isEmployee,
+        pathname = props.pathname;
+
+  // console.log(`NavMenu.js SAdminBar props.isAdmin: ${props.isAdmin}`);
+  if (isEmployee) {
+    return (
+    <Toolbar>
+      <MenuItem component={EmpDashboard} selected={"/edashboard" === pathname}>Dashboard</MenuItem>
     </Toolbar>
     );
   }
@@ -118,12 +137,13 @@ function AdminBar(props) {
 // login state
 // ---------------------------------------------------------------------------------------
 function AuthMenu(props) {
-  const isLoggedIn = props.isLoggedIn;
+  const isLoggedIn = props.isLoggedIn,
+        pathname = props.pathname;
   
   if (isLoggedIn) {
     return (
       <Toolbar> 
-        <MenuItem component={Logout}>Logout</MenuItem>
+        <MenuItem component={Logout} selected={"/logout" === pathname}>Logout</MenuItem>
         <MenuItem><p>{props.email}</p></MenuItem>
       </Toolbar>
     );
@@ -131,8 +151,8 @@ function AuthMenu(props) {
 
   return (
    <Toolbar>
-      <MenuItem component={Login}>Login</MenuItem>
-      <MenuItem component={Signup}>Sign Up</MenuItem>
+      <MenuItem component={Login} selected={"/login" === pathname}>Login</MenuItem>
+      <MenuItem component={Signup} selected={"/signup" === pathname}>Sign Up</MenuItem>
    </Toolbar>
   );
 }
@@ -153,7 +173,7 @@ class NavMenu extends Component {
 
 
   render() {
-    const { classes } = this.props;
+    const { classes, location: {pathname} } = this.props;
 
     return  (
       <MuiThemeProvider theme={theme}>
@@ -166,13 +186,28 @@ class NavMenu extends Component {
           <Typography variant="title" color="inherit" className={classes.grow}>
             {AppName}
           </Typography>
-          <MenuItem color="inherit" component={Home} style={{backgroundColor: 'red', color: 'white'}}>Home</MenuItem>
-          <MenuItem color="inherit" component={Public}>Public</MenuItem>
-          <MenuItem color="inherit" component={Protected}>Protected</MenuItem>
-          <AdminBar isAdmin = {this.props.isAdmin || this.props.isSuperAdmin} />
+          <MenuItem color="inherit" component={Home} selected={"/" === pathname}>Home</MenuItem>
+          <MenuItem color="inherit" component={About} selected={"/about" === pathname}>About</MenuItem>
+          { !this.props.isLoggedIn &&
+          <MenuItem color="inherit" component={Dashboard} selected={"/dashboard" === pathname}>Dashboard</MenuItem>
+          }
+          <SAdminBar 
+            isSuperAdmin = {this.props.isSuperAdmin} 
+            pathname = {pathname}
+          />
+          <FAdminBar 
+            isFAdmin = {this.props.isFAdmin} 
+            pathname = {pathname}
+          />
+          <EmployeeBar 
+            isEmployee = {this.props.isEmployee} 
+            pathname = {pathname}
+          />
+
           <AuthMenu 
             isLoggedIn = {this.props.isLoggedIn}
             email = {this.props.email}
+            pathname = {pathname}
           />
         </Toolbar>
       </AppBar>
@@ -186,4 +221,7 @@ NavMenu.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(NavMenu);
+export default compose (
+  withRouter,
+  withStyles(styles)
+)(NavMenu);
