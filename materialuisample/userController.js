@@ -12,6 +12,7 @@ const vlib = require("../helpers/validationFns");
 
 const db = require('../models');
 const User = require('../models/user');
+const Franchise = require('../models/franchise');
 
 var formidable = require("formidable");
 var cloudinary = require("cloudinary");
@@ -37,6 +38,8 @@ module.exports = {
     console.log(`req.user: ${req.user}`);
     User
       .findById(req.user._id)
+      // Specify that we want to populate the retrieved franchise with employee and customer info
+      .populate("franchise")
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
