@@ -80,10 +80,11 @@ const Logout = props => <Link to="/logout" {...props} />
 const SDashboard = props => <Link to="/superdashboard" {...props} />
 const FDashboard = props => <Link to="/fadmindashboard" {...props} />
 const EmpDashboard = props => <Link to="/edashboard" {...props} />
+const CustDashboard = props => <Link to="/cdashboard" {...props} />
 
 
 // ---
-// functional component that renders Admin nav item if logged in user is an administrator
+// functional component that renders nav item if logged in user is a super administrator
 // ---------------------------------------------------------------------------------------
 function SAdminBar(props) {
   const isSuperAdmin = props.isSuperAdmin,
@@ -126,6 +127,21 @@ function EmployeeBar(props) {
     return (
     <Toolbar>
       <MenuItem component={EmpDashboard} selected={"/edashboard" === pathname}>Dashboard</MenuItem>
+    </Toolbar>
+    );
+  }
+  return null;
+}
+
+function CustomerBar(props) {
+  const isCustomer = props.isCustomer,
+        pathname = props.pathname;
+
+  // console.log(`NavMenu.js SAdminBar props.isAdmin: ${props.isAdmin}`);
+  if (isCustomer) {
+    return (
+    <Toolbar>
+      <MenuItem component={CustDashboard} selected={"/cdashboard" === pathname}>My Info</MenuItem>
     </Toolbar>
     );
   }
@@ -180,9 +196,6 @@ class NavMenu extends Component {
       <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-            <MenuIcon />
-          </IconButton>
           <Typography variant="title" color="inherit" className={classes.grow}>
             {AppName}
           </Typography>
@@ -201,6 +214,10 @@ class NavMenu extends Component {
           />
           <EmployeeBar 
             isEmployee = {this.props.isEmployee} 
+            pathname = {pathname}
+          />
+          <CustomerBar 
+            isCustomer = {this.props.isCustomer} 
             pathname = {pathname}
           />
 
@@ -225,3 +242,11 @@ export default compose (
   withRouter,
   withStyles(styles)
 )(NavMenu);
+
+/*
+
+          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+            <MenuIcon />
+          </IconButton>
+
+*/
