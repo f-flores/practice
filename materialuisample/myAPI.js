@@ -1,4 +1,6 @@
 import axios from "axios";
+let CancelToken = axios.CancelToken;
+let source = CancelToken.source();
 
 export default {
     getContacts: async function(){
@@ -27,6 +29,10 @@ export default {
     // get franchise customers, available to admin
     getCustomers: async function(id) {
       return await axios.get(`api/franchisecustomers/${id}`);
+    },
+    // get franchise customer, available to admin
+    getCustomer: async function(id) {
+      return await axios.get(`api/contacts/${id}`);
     },
     // does franchise exist for current user, available to admin
     hasFranchise: async function() {
@@ -62,9 +68,17 @@ export default {
     updateUserType: function(id, body) {
       return axios.put(`/api/admin/${id}`, body)
     },
+    // Update Customer's Account status
+    updateAccountStatus: function(id, body) {
+      return axios.put(`/api/contacts/${id}`, body)
+    },
     // Update Franchise
     updateFranchise: function(id, body) {
-      return axios.put(`/api/updatefranchise/${id}`, body);
+      const data = axios.put(`/api/updatefranchise/${id}`, body,
+      {
+        cancelToken: source.token
+      });
+      return data;
     },
     // Delete User
     deleteUsers: function(id) {
@@ -86,5 +100,14 @@ export default {
     // Delete System
     deleteSystem: function(id) {
         return axios.delete(`/api/systems/${id}`)
-    }
+    },
+    // cancel request
+    cancelRequest: function() {
+      source.cancel("API request cancelled.");
+      // after token is cancelled, a new CancelToken is created so that each request
+      // has a different token.
+      CancelToken = axios.CancelToken;
+      source = CancelToken.source();
+      return true;
+    },
 }
