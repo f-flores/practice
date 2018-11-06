@@ -20,6 +20,7 @@ import Fade from '@material-ui/core/Fade';
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 
+
 const assembleEmail = (name) => {
   let msgStr = '';
 
@@ -57,9 +58,7 @@ class CreateAccountOption extends Component {
     API
     .getCustomer(contactId)
     .then(res => this.setState({checked: res.data.activeAccount}) )
-    .catch(err => {
-      console.log(err.response.data);
-    }) 
+    .catch(err => console.log(err.response.data)) 
   }
 
   handleChange = () => {
