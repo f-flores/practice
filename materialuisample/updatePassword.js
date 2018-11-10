@@ -64,6 +64,9 @@ class UpdatePassword extends Component {
       errorMessage: "",
       submitError: false,
       cancelled: false,
+      goodCurrent: false,
+      goodNew: false,
+      goodConfirm: false,
     }
   }
 
@@ -86,7 +89,10 @@ class UpdatePassword extends Component {
       newPassword: "",
       confirmPassword: "",
       errorMessage: "",
-      submitError: false,  
+      submitError: false,
+      goodCurrent: false,
+      goodNew: false,
+      goodConfirm: false,  
     });
   }
 
@@ -100,20 +106,25 @@ class UpdatePassword extends Component {
     this.setState({[name]: value});
   }
 
-  handleError = (msg) => {
+  handleError = msg => {
     this.setState({
       submitError: true,
       errorMessage: msg,
     });
   }
 
-  areValidValues() {
-    return false;
+  handleSubmit = event => {
+    event.preventDefault();
+
   }
 
+  validatorListenerCurrent = result => this.setState({goodCurrent: result});
+  validatorListenerNew = result => this.setState({goodNew: result});
+  validatorListenerConfirm = result => this.setState({goodConfirm: result});
+  
   render() {
     const {classes, history} = this.props;
-    const {cancelled} = this.state;
+    const {cancelled, goodCurrent, goodNew, goodConfirm} = this.state;
 
     if (cancelled) {
       return (
@@ -151,6 +162,7 @@ class UpdatePassword extends Component {
           }}
           validators={['required']}
           errorMessages={['Entering password is required']}
+          validatorListener={this.validatorListenerCurrent}
           value={this.state.currentPassword}
           onChange={this.handleOnChange}
         />
@@ -172,6 +184,7 @@ class UpdatePassword extends Component {
           }}
           validators={['required',`minStringLength:${MinPasswordLength}`, `maxStringLength:${MaxPasswordLength}`]}
           errorMessages={['New password is required', `At least ${MinPasswordLength} characters long`, `Must be less than ${MaxPasswordLength}`]}
+          validatorListener={this.validatorListenerNew}
           value={this.state.newPassword}
           onChange={this.handleOnChange}
         />
@@ -193,6 +206,7 @@ class UpdatePassword extends Component {
           }}
           validators={['required',`minStringLength:${MinPasswordLength}`, `maxStringLength:${MaxPasswordLength}`,`isPasswordMatch`]}
           errorMessages={['Confirm password is required', `At least ${MinPasswordLength} characters long`, `Must be less than ${MaxPasswordLength}`,`Passwords must match`]}
+          validatorListener={this.validatorListenerConfirm}
           value={this.state.confirmPassword}
           onChange={this.handleOnChange}
         />
@@ -201,7 +215,7 @@ class UpdatePassword extends Component {
         <Button onClick={this.handleCancel} color="primary">
           Cancel
         </Button>
-        <Button type="submit" color="primary" disabled={!this.areValidValues()}>
+        <Button type="submit" color="primary" disabled={!goodCurrent || !goodNew || !goodConfirm}>
           Update
         </Button>
         {
