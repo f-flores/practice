@@ -48,6 +48,8 @@ class CreateAccountOption extends Component {
     };
     this.handleChecked = this.handleChecked.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.signupCustomer = this.signupCustomer.bind(this);
+    this.sendFirstSubscriptionEmail = this.sendFirstSubscriptionEmail.bind(this);
   }
 
   // grab customer's activation status from backend and set 'checked' state
@@ -99,7 +101,10 @@ class CreateAccountOption extends Component {
       console.log(JSON.stringify(res.data));
       this.sendFirstSubscriptionEmail(msg);
     })
-    .catch(err => console.log(err) );  
+    .catch(err => {
+      // find out if user is not already member or had active account
+      console.log(err);
+     });  
   }
 
   sendFirstSubscriptionEmail = (msg) => {
