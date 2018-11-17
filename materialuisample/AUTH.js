@@ -1,15 +1,15 @@
 import axios from "axios";
 
-const CancelToken = axios.CancelToken;
-const source = CancelToken.source();
+let CancelToken = axios.CancelToken;
+let source = CancelToken.source();
 
 export default {
     // signup new user 
     //  userInfo = {
-    //    email: "alex@example.com" 
-    //    username: "alex",
-    //    password: 12345Password!,
-    //    pswrdConfirmation: 12345Password!
+    //    email: "username@example.com" 
+    //    username: "username",
+    //    password: 123password,
+    //    pswrdConfirmation: 123password
     // }
     //
     signup: function(userInfo) {
@@ -21,7 +21,7 @@ export default {
       );
       return data;
     },
-    // credentials: {email: "uname", password: "12345"}
+    // credentials: {email: "uname@example.com", password: "12345"}
     login: function(credentials) {
       const data = axios.post("/auth/login", 
         credentials,
@@ -29,13 +29,43 @@ export default {
           cancelToken: source.token
         }
       );
-      // console.log("in login cancelToken: source = ", JSON.stringify(source));
-      // console.log("CancelToken login : source.token = ", JSON.stringify(source.token));
       return data;
     },
     // checks on session existence on backend
     loginCheck: function() {
       const data = axios.get("/auth/login",
+      {
+        cancelToken: source.token
+      });
+      return data;
+    },
+    // get reset token
+    getRToken: function(token) {
+      const data = axios.get(`auth/reset/${token}`,
+      {
+        cancelToken: source.token
+      });
+      return data;
+    },
+    // update password based on current email
+    // {email, current_pw, new_pw, confirm_new_pw}
+    updatePassword: function(postInfo) {
+      const data = axios.post("/auth/updatepwrd", postInfo,
+      {
+        cancelToken: source.token
+      });
+      return data;
+    },
+    // reset password based on current email
+    resetPassword: function(token, postInfo) {
+      const data = axios.post(`/auth/reset/${token}`, postInfo,
+      {
+        cancelToken: source.token
+      });
+      return data;
+    },
+    forgotPassword: function(postInfo) {
+      const data = axios.post("/auth/forgotpassword", postInfo,
       {
         cancelToken: source.token
       });
@@ -62,8 +92,11 @@ export default {
     },
     // cancel request
     cancelRequest: function() {
-      // console.log("cancel request: ", JSON.stringify(cancel));
       source.cancel("API request cancelled.");
+      // after token is cancelled, a new CancelToken is created so that each request
+      // has a different token.
+      CancelToken = axios.CancelToken;
+      source = CancelToken.source();
       return true;
     }
 }
