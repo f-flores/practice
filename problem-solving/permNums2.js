@@ -58,6 +58,9 @@ No absolute permutation exists, so we print -1 on a new line.
 
 */
 
+// https://www.quora.com/How-would-you-explain-an-algorithm-that-generates-permutations-using-lexicographic-ordering
+
+
 function indent(l) {
   let indentStr = '';
   for (let j = 0; j < l; j++) {
@@ -66,61 +69,62 @@ function indent(l) {
   return indentStr;
 }
 
-function attemptRecent(chosen, k, index) {
-  console.log(`attemptRecent: ch[ind]: ${chosen[index]}, index+1: ${index+1}`);
-  return Math.abs(chosen[index] - (index + 1)) === k;
-}
-
-function attemptPerm(chosen, k) {
-  for (let ind = 0; ind < chosen.length; ind++) {
-    if (Math.abs(chosen[ind] - (ind + 1)) !== k)
+function attemptPerm(arr, k) {
+  for (let ind = 0; ind < arr.length; ind++) {
+    if (Math.abs(arr[ind] - (ind + 1)) !== k)
       return false;
   }
   return true;
 }
 
+const swap = (arr, i, j) => {
+  const tmp = arr[i];
+  arr[i] = arr[j];
+  arr[j] = tmp;
+}
+
 // find all permutations
-function permute(arr, chosen, left, k) {
+function permute(arr, k) {
   console.log(`${indent(chosen.length)}permute(arr:[${arr}], ch:[${chosen}], ${k}, left: ${left})`);
-  if (arr.length === 0) {
-    // console.log(`attempt: ${chosen.join(" ")}`);
-      if (attemptPerm(chosen, k) === true) {
-        console.log(`chosen: ${chosen.join(" ")}, arr: ${arr}, left: ${left}`);
-        return true;
+
+  if (attemptPerm(arr, k) === true) {
+    console.log(`found combo: ${arr}`);
+    return arr;
+  } else {
+    // find largest x such that arr[x] < arr[x + 1]
+    let largestX = -1;
+    // [1, 2, 5, 3, 7, 8], start at end of arr
+    for (let x = arr.length - 1; x > 0; x--) {
+      if (arr[x] > arr[x - 1]) {
+        largestX = x - 1;
+        break;
       }
-
-  }  else if (attemptRecent(chosen, k, chosen.length -1) === false && chosen.length > 0) {
-  // } else if (attemptPerm(chosen, k) === false) {
-  //  console.log(`attempt: ${chosen.join(" ")}, arr: ${arr}, left: ${left}`);
-    return false;
-  } 
-  else {
-    for (let i = 0; i < arr.length; i++) {
-      // choose
-      let choose = arr[i];
-      // console.log(`choose: ${choose}, i: ${i}`);
-      chosen.push(choose);
-      arr.splice(i, 1);
-
-      // explore
-      const found = permute(arr, chosen, i, k);
-
-      // if (chosen.length > 0 && attemptRecent(chosen, k, i) === false) {
-      //  return;
-      // }
-
-      if (found) {
-        return chosen;
-      } else {
-        // unchoose -- backtrack
-        arr.splice(i, 0, choose);
-        // console.log(`unchoose arr: ${arr}`);
-        chosen.pop();
-        // console.log(`unchoose chosen: ${chosen}`);
-      } 
     }
+
+    if (largestX === -1) {
+      console.log('done');
+      return false;
+    }
+    console.log(`largestX: ${largestX}`);
+    // find the largest y such that arr[largestX] < arr[y]
+    for (let y = arr.length - 1; y > 0; y-- ) {
+      if (arr[y] > arr[largestX]) {
+        largestY = y;
+        break;
+      }
+    }
+    console.log(`largestX: ${largestX}`);
+    
+    // swap arr[largestX] and arr[largestY]
+    swap(arr, largestX, largestY);
+
+    // reverse arr[x+1...n]
+    let subArr = arr.splice(largestX + 1);
+    subArr.reverse();
+    arr = [...arr, ...subArr];
+    // console.log(arr);
+    permute(arr, k);
   }
-  return false;
 }
 
 
@@ -128,11 +132,13 @@ function permute(arr, chosen, left, k) {
 function permutationK(n, k) {
   const arrN = [...Array(n).keys()].map(x => x +1);
   let chosen = [];
-  let result = permute(arrN, chosen, 0, k);
+  let result = permute(arrN, k);
   return (result === false) ? [-1] : chosen;
 }
 
-const nItems = 60;
-const k = 20;
+const nItems = 6;
+const k = 3;
 
 console.log(permutationK(nItems, k));
+
+
