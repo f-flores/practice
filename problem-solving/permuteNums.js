@@ -67,13 +67,22 @@ function indent(l) {
 }
 
 function attemptRecent(chosen, k, index) {
-  console.log(`attemptRecent: ch[ind]: ${chosen[index]}, index+1: ${index+1}`);
+  // console.log(`attemptRecent: ch[ind]: ${chosen[index]}, index+1: ${index+1}`);
   return Math.abs(chosen[index] - (index + 1)) === k;
 }
 
-function attemptPerm(chosen, k) {
+/* function attemptPerm(chosen, k) {
   for (let ind = 0; ind < chosen.length; ind++) {
     if (Math.abs(chosen[ind] - (ind + 1)) !== k)
+      return false;
+  }
+  return true;
+} */
+
+// start check at end of array
+function attemptPerm(arr, k) {
+  for (let ind = arr.length - 1; ind > 0; ind--) {
+    if (Math.abs(arr[ind] - (ind + 1)) !== k)
       return false;
   }
   return true;
@@ -81,42 +90,32 @@ function attemptPerm(chosen, k) {
 
 // find all permutations
 function permute(arr, chosen, left, k) {
-  console.log(`${indent(chosen.length)}permute(arr:[${arr}], ch:[${chosen}], ${k}, left: ${left})`);
+  // console.log(`${indent(chosen.length)}permute(arr:[${arr}], ch:[${chosen}], ${k}, left: ${left})`);
   if (arr.length === 0) {
-    // console.log(`attempt: ${chosen.join(" ")}`);
       if (attemptPerm(chosen, k) === true) {
-        console.log(`chosen: ${chosen.join(" ")}, arr: ${arr}, left: ${left}`);
+        // console.log(`chosen: ${chosen.join(" ")}, arr: ${arr}, left: ${left}`);
         return true;
       }
 
   }  else if (attemptRecent(chosen, k, chosen.length -1) === false && chosen.length > 0) {
-  // } else if (attemptPerm(chosen, k) === false) {
-  //  console.log(`attempt: ${chosen.join(" ")}, arr: ${arr}, left: ${left}`);
     return false;
   } 
   else {
     for (let i = 0; i < arr.length; i++) {
       // choose
       let choose = arr[i];
-      // console.log(`choose: ${choose}, i: ${i}`);
       chosen.push(choose);
       arr.splice(i, 1);
 
       // explore
       const found = permute(arr, chosen, i, k);
 
-      // if (chosen.length > 0 && attemptRecent(chosen, k, i) === false) {
-      //  return;
-      // }
-
       if (found) {
         return chosen;
       } else {
         // unchoose -- backtrack
         arr.splice(i, 0, choose);
-        // console.log(`unchoose arr: ${arr}`);
         chosen.pop();
-        // console.log(`unchoose chosen: ${chosen}`);
       } 
     }
   }
@@ -132,7 +131,7 @@ function permutationK(n, k) {
   return (result === false) ? [-1] : chosen;
 }
 
-const nItems = 60;
-const k = 20;
+const nItems = 5;
+const k = 0;
 
 console.log(permutationK(nItems, k));

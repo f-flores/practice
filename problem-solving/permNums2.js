@@ -69,8 +69,9 @@ function indent(l) {
   return indentStr;
 }
 
+// start check at end of array
 function attemptPerm(arr, k) {
-  for (let ind = 0; ind < arr.length; ind++) {
+  for (let ind = arr.length - 1; ind > 0; ind--) {
     if (Math.abs(arr[ind] - (ind + 1)) !== k)
       return false;
   }
@@ -86,50 +87,49 @@ const swap = (arr, i, j) => {
 // find all permutations
 function permute(arr, k) {
   let found = false;
+  let resultArr = [];
 
   do {
-    console.log(`${indent(2)}permute(arr:[${arr}], ${k})`);
+    // console.log(`${indent(2)}permute(arr:[${arr}], ${k})`);
     if (attemptPerm(arr, k) === true) {
-      console.log(`found combo: ${arr}`);
+      resultArr = [...arr];
       found = true;
     } else {
-      // find largest x such that arr[x] < arr[x + 1]
+      // STEP 1. find largest x such that arr[x] < arr[x + 1]
       let largestX = -1;
       // [1, 2, 5, 3, 7, 8], start at end of arr
       for (let x = arr.length - 1; x > 0; x--) {
-        if (arr[x] > arr[x - 1]) {
+        if (arr[x - 1] < arr[x]) {
           largestX = x - 1;
           break;
         }
       }
 
       if (largestX === -1) {
-        console.log('done');
+        // console.log('done, exhausted all possibilities');
         break;
       }
 
-      console.log(`largestX: ${largestX}`);
-      // find the largest y such that arr[largestX] < arr[y]
+      // console.log(`largestX: ${largestX}`);
+      // STEP 2. find the largest y such that arr[largestX] < arr[y]
       for (let y = arr.length - 1; y > 0; y-- ) {
-        if (arr[y] > arr[largestX]) {
+        if (arr[largestX] < arr[y]) {
           largestY = y;
           break;
         }
       }
-      console.log(`largestY: ${largestY}`);
+      // console.log(`largestY: ${largestY}`);
 
-      // swap arr[largestX] and arr[largestY]
+      // STEP 3. swap arr[largestX] and arr[largestY]
       swap(arr, largestX, largestY);
 
-      // reverse arr[x+1...n]
+      // STEP 4. reverse arr[x+1...n]
       let subArr = arr.splice(largestX + 1);
       subArr.reverse();
       arr = [...arr, ...subArr];
-      // console.log(arr);
-      // const found = permute(arr, k);
     }
   } while (!found)
-  return (found === true) ? arr : false;
+  return (found === true) ? resultArr : false;
 }
 
 
@@ -137,12 +137,12 @@ function permute(arr, k) {
 function permutationK(n, k) {
   let arrN = [...Array(n).keys()].map(x => x +1);
   let result = permute(arrN, k);
-  console.log(`result: ${result}`);
-  return (result === false) ? [-1] : arrN;
+  // console.log(`result: ${result}`);
+  return (result === false) ? [-1] : result;
 }
 
-const nItems = 3;
-const k = 2;
+const nItems = 100;
+const k = 50;
 
 console.log(permutationK(nItems, k));
 
