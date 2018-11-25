@@ -106,3 +106,15 @@ OOO...O
 
 
 */
+
+const bgrid = (n, gr) => {
+  return "answer";
+}
+
+let num = 1;
+let grid = 
+[ ["0", "."],
+  [".", "."]
+];
+
+console.log(bgrid(num, grid))
