@@ -8,7 +8,6 @@ import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 // @material-ui core components
 import {withStyles} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 // material-ui pro components
@@ -101,6 +100,13 @@ class PostRental extends Component {
     });
   }
 
+  handleError = msg => {
+    this.setState({
+      submitError: true,
+      errorMessage: msg,
+    });
+  }
+
   handleOnChange = event => {
     event.preventDefault();
     const {name, value} = event.target;
@@ -109,7 +115,21 @@ class PostRental extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    const {itemName, description, price} = this.state;
+
     console.log('handleSubmit');
+    const rentObj = {
+      itemName: itemName,
+      description: description,
+      price: price,
+    };
+    API
+    .postRental(rentObj)
+    .then(() => this.setState({success: true}))
+    .catch(err => {
+      console.log(JSON.stringify(err, null, 2));
+      this.handleError(err.response.statusText);
+    });
   }
 
   validatorListenerItem = result => this.setState({goodItem: result});
