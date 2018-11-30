@@ -13,5 +13,9 @@ function isPalindrome(s) {
   return true;
 }
 
+function isPalindrome2(str) {
+  return str === str.split("").reverse().join("");
+}
 
 console.log(isPalindrome(testWord));
+console.log(isPalindrome2(testWord));
