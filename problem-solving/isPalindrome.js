@@ -14,7 +14,8 @@ function isPalindrome(s) {
 }
 
 function isPalindrome2(str) {
-  return str === str.split("").reverse().join("");
+  // test equivalence of string and its reverse
+  return str === str.split('').reverse().join('');
 }
 
 console.log(isPalindrome(testWord));
