@@ -17,6 +17,7 @@ import GridItem from 'components/Grid/GridItem.jsx';
 import WallPaper from '@material-ui/icons/BrandingWatermark';
 import Description from '@material-ui/icons/Description';
 import AttachMoney from '@material-ui/icons/AttachMoney';
+import LocationOn from '@material-ui/icons/LocationOn';
 
 window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
 
@@ -53,6 +54,7 @@ class PostRental extends Component {
     this.state = {
       itemName: "",
       description: "",
+      location: "",
       price: "",
       startDate: "",
       endDate: "",
@@ -65,6 +67,7 @@ class PostRental extends Component {
       submitError: false,
       goodItem: false,
       goodDescription: false,
+      goodLocation: false,
       goodPrice: false,
       goodCategory: false,
       goodNotes: false,
@@ -76,6 +79,7 @@ class PostRental extends Component {
     this.setState({
       itemName: "",
       description: "",
+      location: "",
       price: 0,
       startDate: "",
       endDate: "",
@@ -87,6 +91,7 @@ class PostRental extends Component {
       submitError: false,
       goodItem: false,
       goodDescription: false,
+      goodLocation: false,
       goodPrice: false,
       goodCategory: false,
       goodNotes: false,
@@ -115,12 +120,13 @@ class PostRental extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const {itemName, description, price} = this.state;
+    const {itemName, description, location, price} = this.state;
 
     console.log('handleSubmit');
     const rentObj = {
       itemName: itemName,
       description: description,
+      location: location,
       price: price,
     };
     API
@@ -133,12 +139,27 @@ class PostRental extends Component {
   }
 
   validatorListenerItem = result => this.setState({goodItem: result});
+  validatorListenerLocation = result => this.setState({goodLocation: result});
   validatorListenerDescription = result => this.setState({goodDescription: result});
   validatorListenerPrice = result => this.setState({goodPrice: result});
  
   render() {
     const {classes, history} = this.props;
-    const {cancelled, success, itemName, description, price, goodItem, goodDescription, goodPrice, submitError, errorMessage, category} = this.state;
+    const {
+      cancelled,
+      success,
+      itemName,
+      location,
+      description,
+      price,
+      goodItem,
+      goodDescription,
+      goodLocation,
+      goodPrice,
+      submitError,
+      errorMessage,
+      category
+    } = this.state;
 
     if (cancelled) {
       history.goBack();
@@ -195,10 +216,32 @@ class PostRental extends Component {
               ),
               placeholder: "Type in description of item ..."
             }}
-            validators={['required',`minStringLength:${MinDescription}`, `maxStringLength:${MaxDescription}`]}
-            errorMessages={['Item name is required',`At least ${MinDescription} characters long`, `Must be less than ${MaxDescription}`]}
+            validators={['required',`minStringLength:${MinItemName}`, `maxStringLength:${MaxItemName}`]}
+            errorMessages={['Item name is required',`At least ${MinItemName} characters long`, `Must be less than ${MaxItemName}`]}
             validatorListener={this.validatorListenerDescription}
             value={description}
+            onChange={this.handleOnChange}
+          />
+        </GridItem>
+        <GridItem xs={12} sm={7}>
+          <TextValidator
+            autoFocus
+            id="item-location"
+            name="location"
+            type="text"
+            label="Location"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start" className={classes.customFormControlClasses}>
+                  <LocationOn className={classes.inputAdornmentIcon} />
+                </InputAdornment>
+              ),
+              placeholder: "Location of item ..."
+            }}
+            validators={['required',`minStringLength:${MinDescription}`, `maxStringLength:${MaxDescription}`]}
+            errorMessages={['Location is required',`At least ${MinDescription} characters long`, `Must be less than ${MaxDescription}`]}
+            validatorListener={this.validatorListenerLocation}
+            value={location}
             onChange={this.handleOnChange}
           />
         </GridItem>
