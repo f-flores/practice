@@ -105,7 +105,7 @@ class PostRental extends Component {
     });
   }
 
-  handleError = msg => {
+  handldeError = msg => {
     this.setState({
       submitError: true,
       errorMessage: msg,
@@ -166,7 +166,7 @@ class PostRental extends Component {
     }
 
     if (success) {
-      setTimeout(() => history.goBack(), 2000);
+      setTimeout(() => history.goBack(), 1500);
     }
 
     return (
@@ -290,7 +290,7 @@ class PostRental extends Component {
         <Button onClick={this.handleCancel} color="primary">
           Cancel
         </Button>
-        <Button type="submit" color="primary" disabled={!goodItem || !goodDescription || !goodPrice || success}>
+        <Button type="submit" color="primary" disabled={!goodItem || !goodDescription || !goodPrice || !goodLocation || success}>
           Update
         </Button>
       </GridItem>
