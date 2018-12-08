@@ -4,6 +4,10 @@
 
 
 
+// --- 
+// find common elements between two sorted arrays in O(max(m,n))
+// ---
+
 function findCommon(arrA, arrB) {
   let cntA = 0, cntB = 0;
   let common = [];
