@@ -71,14 +71,6 @@ function attemptRecent(chosen, k, index) {
   return Math.abs(chosen[index] - (index + 1)) === k;
 }
 
-/* function attemptPerm(chosen, k) {
-  for (let ind = 0; ind < chosen.length; ind++) {
-    if (Math.abs(chosen[ind] - (ind + 1)) !== k)
-      return false;
-  }
-  return true;
-} */
-
 // start check at end of array
 function attemptPerm(arr, k) {
   for (let ind = arr.length - 1; ind > 0; ind--) {
