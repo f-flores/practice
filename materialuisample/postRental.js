@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Proptypes from 'prop-types';
 import API from '../../utils/myAPI';
-import { MinItemName, MaxItemName, MinDescription, MaxDescription } from '../../constants/Consts';
+import { ImgTypes, MinItemName, MaxItemName, MinDescription, MaxDescription } from '../../constants/Consts';
 import categories from '../../constants/categories.json';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
@@ -18,8 +18,19 @@ import WallPaper from '@material-ui/icons/BrandingWatermark';
 import Description from '@material-ui/icons/Description';
 import AttachMoney from '@material-ui/icons/AttachMoney';
 import LocationOn from '@material-ui/icons/LocationOn';
+// import cloudinary from 'cloudinary';
+// let cloudinary = require('cloudinary');
 
 window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
+
+// var cloudinary = require("cloudinary");
+
+
+/* cloudinary.config({
+  "cloud_name": process.env.CLOUDINARY_NAME,
+  "api_key": process.env.CLOUDINARY_API_KEY,
+  "api_secret": process.env.CLOUDINARY_API_SECRET
+}); */
 
 const styles = theme => ({
   root: {
@@ -73,6 +84,8 @@ class PostRental extends Component {
       goodNotes: false,
       errorMessage: "",
     }
+    this.imgUrl = "";
+    this.uploadWidget = this.uploadWidget.bind(this);
   }
 
   resetValues = () => {
@@ -99,13 +112,36 @@ class PostRental extends Component {
     });
   }
 
+  uploadWidget = event => {
+    event.preventDefault();
+
+    // https://cloudinary.com/documentation/upload_widget
+    let myWidget = window.cloudinary.createUploadWidget({
+      cloudName: process.env.REACT_APP_UPLOAD_CLOUDNAME, 
+      uploadPreset: process.env.REACT_APP_UPLOAD_PRESET}, (error, res) => { 
+        if (error !== undefined) {
+          console.log(error);
+          this.handleError(error);
+        }
+        console.log(res);
+        if (res.event === 'success') {
+          console.log(res.info.secure_url);
+          this.imgUrl = res.info.secure_url;
+        }
+      })
+    
+    document.getElementById('upload_widget').addEventListener('click', function(){
+        myWidget.open();
+      }, false);
+  }
+
   handleCancel = () => {
     this.setState({cancelled: true}, () => {
       this.resetValues();
     });
   }
 
-  handldeError = msg => {
+  handleError = msg => {
     this.setState({
       submitError: true,
       errorMessage: msg,
@@ -118,6 +154,19 @@ class PostRental extends Component {
     this.setState({[name]: value});
   }
 
+  handleFileSelect = event => {
+    event.preventDefault();
+    let imageFile = event.target.files[0];
+    console.log(event.target.files[0]); // grabs from file array
+    console.log(process.env.REACT_APP_UPLOAD_PRESET);
+    const extPos = imageFile.name.lastIndexOf('.');
+    if (ImgTypes.includes(imageFile.name.slice(extPos + 1)) ) {
+      this.setState({imgUrl: imageFile});
+    } else {
+      this.handleError(`Image File must be of type ${ImgTypes}`);
+    }
+  }
+
   handleSubmit = event => {
     event.preventDefault();
     const {itemName, description, location, price} = this.state;
@@ -125,6 +174,7 @@ class PostRental extends Component {
     console.log('handleSubmit');
     const rentObj = {
       itemName: itemName,
+      imgUrl: this.imgUrl,
       description: description,
       location: location,
       price: price,
@@ -267,6 +317,32 @@ class PostRental extends Component {
             onChange={this.handleOnChange}
           />
         </GridItem>
+
+        <GridItem xs={12} sm={7}>
+        Select Image Rental Image:
+          <input
+            accept="image/*"
+            className={classes.input}
+            id="contained-button-file"
+            multiple
+            type="file"
+            onChange={this.handleFileSelect}
+          />
+        </GridItem>
+
+        <GridItem xs={12} sm={7}>
+        Upload Image:
+        <button
+          id="upload_widget"
+          className="cloudinary-button"
+          onClick={this.uploadWidget}
+        >
+          Upload files
+        </button>
+
+        </GridItem>
+
+
         <GridItem xs={12} sm={7}>
           Select Category:
           <select
@@ -299,6 +375,7 @@ class PostRental extends Component {
         submitError &&
         <TextField 
           error
+          fullWidth
           className={`${classes.errorText} ${classes.infoText}`} 
           variant="outlined" 
           value={errorMessage}
@@ -327,3 +404,13 @@ PostRental.propTypes = {
 };
 
 export default withStyles(styles)(PostRental);
+
+/*
+
+  <label htmlFor="contained-button-file">
+    <Button variant="contained" component="span" className={classes.button}>
+      Upload
+    </Button>
+  </label>
+
+*/
