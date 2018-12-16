@@ -29,14 +29,11 @@ function sumRecursive(n) {
   if (n <= 1) {
     return 1;
   }
-  else {
-    return n + sumRecursive(n-1);
-  }
-
+  return n + sumRecursive(n-1);
 }
 
 console.log(sums(2, 3));
 console.log(sums((2), (3)));
 console.log(sums2(2) (3));
 console.log(mult(2) (3) (4));
-console.log(sumRecursive(5000));
+console.log(sumRecursive(100));
