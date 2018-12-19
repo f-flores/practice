@@ -108,13 +108,16 @@ OOO...O
 */
 
 const bgrid = (n, gr) => {
-  return "answer";
+  return n === 1 ? gr.join('\n') : gr.join('\n');
 }
 
 let num = 1;
 let grid = 
-[ ["0", "."],
-  [".", "."]
+[ ".....",
+  ".....",
+  "..o..",
+  ".....",
+  "....."
 ];
 
-console.log(bgrid(num, grid))
+console.log(bgrid(num, grid));
