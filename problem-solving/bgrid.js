@@ -106,8 +106,43 @@ OOO...O
 
 
 */
+const getState1 = grid => grid;
+
+const getState2 = grid => {
+  console.log('getState2');
+  let nGrid = [], 
+      row = 0,
+      rows = grid.length,
+      gridArr = []
+      cols = grid[0].length;
+  for (; row < rows; row++) {
+    let rowStr = '', gridStr = grid[row];
+    for (let col = 0; col < cols; col++) {
+      console.log(`gridStr.charAt(col): ${gridStr.charAt(col)}`);
+      if (gridStr.charAt(col) !== 'o') {
+        // col (i +- 1, )
+        rowStr = `${rowStr}o`;
+      } else {
+        rowStr = `${rowStr}x`;
+      }
+      gridStr = gridStr.substring(0, col) + 'o' + gridStr.substring(col+1);
+    }
+    gridArr.push(gridStr);
+    nGrid.push(rowStr);
+  }
+  console.log(`nGrid: ${nGrid}`);
+  return gridArr;
+}
 
 const bgrid = (n, gr) => {
+  let grState1 = getState1(gr);
+  console.log(grState1);
+  let grState2 = getState2(grState1);
+  console.log('grState2');
+  console.log(grState2);
+  // if n == 1 or 2, return grid state one
+  // if n == 3, return other grid
+  // if n == 4, return other grid four
   return n === 1 ? gr.join('\n') : gr.join('\n');
 }
 
