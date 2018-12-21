@@ -108,38 +108,60 @@ OOO...O
 */
 const getState1 = grid => grid;
 
-const getState2 = grid => {
+const getState2 = (grid, nGrid) => {
   console.log('getState2');
-  let nGrid = [], 
-      row = 0,
+  let row = 0,
       rows = grid.length,
       gridArr = []
       cols = grid[0].length;
   for (; row < rows; row++) {
     let rowStr = '', gridStr = grid[row];
     for (let col = 0; col < cols; col++) {
-      console.log(`gridStr.charAt(col): ${gridStr.charAt(col)}`);
-      if (gridStr.charAt(col) !== 'o') {
+      // console.log(`gridStr.charAt(col): ${gridStr.charAt(col)}`);
+      if (gridStr.charAt(col) !== 'O') {
         // col (i +- 1, )
-        rowStr = `${rowStr}o`;
+        rowStr = `${rowStr}O`;
       } else {
         rowStr = `${rowStr}x`;
       }
-      gridStr = gridStr.substring(0, col) + 'o' + gridStr.substring(col+1);
+      gridStr = gridStr.substring(0, col) + 'O' + gridStr.substring(col+1);
     }
     gridArr.push(gridStr);
     nGrid.push(rowStr);
   }
-  console.log(`nGrid: ${nGrid}`);
   return gridArr;
 }
 
+const getState3 = (grid3, rows, cols) => {
+  console.log(`in getState3, rows: ${rows}, cols: ${cols}`);
+  for (let i = 0; i < rows; i++) {
+    let rowStr = '', gridStr = grid3[i];
+    console.log(`gridStr: ${gridStr}`);
+    for (let j = 0; j < cols; j++) {
+      if (gridStr.charAt(j) === 'x') {
+        console.log(`hello x`);
+        if (j - 1 > 0) 
+          gridStr = gridStr.substring(0, j - 1) + '.' + gridStr.substring(j);
+        // gridStr = gridStr.substring(0, j) + '.' + gridStr.substring(j+1);
+        if (j+1 < cols)
+          gridStr = gridStr.substring(0, j+1) + '.' + gridStr.substring(j + 2);
+      }
+    }
+    console.log(grid3.splice(i, 0, rowStr));
+  }
+}
+
 const bgrid = (n, gr) => {
+  let rows = gr.length, cols = gr[0].length;
   let grState1 = getState1(gr);
   console.log(grState1);
-  let grState2 = getState2(grState1);
+  let grState3 = [];
+  let grState2 = getState2(grState1, grState3);
   console.log('grState2');
   console.log(grState2);
+  console.log('grState3');
+  getState3(grState3, rows, cols);
+  console.log(grState3, rows, cols);
   // if n == 1 or 2, return grid state one
   // if n == 3, return other grid
   // if n == 4, return other grid four
@@ -150,7 +172,7 @@ let num = 1;
 let grid = 
 [ ".....",
   ".....",
-  "..o..",
+  "..O..",
   ".....",
   "....."
 ];
