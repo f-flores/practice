@@ -132,6 +132,9 @@ const getState2 = (grid, nGrid) => {
   return gridArr;
 }
 
+// create states --- based on time
+// state(0, n) = 'o' or '.'
+// state((i,j), n) = 'o' or '.'
 const getState3 = (grid3, rows, cols) => {
   console.log(`in getState3, rows: ${rows}, cols: ${cols}`);
   for (let i = 0; i < rows; i++) {
@@ -147,7 +150,7 @@ const getState3 = (grid3, rows, cols) => {
           gridStr = gridStr.substring(0, j+1) + '.' + gridStr.substring(j + 2);
       }
     }
-    console.log(grid3.splice(i, 0, rowStr));
+    // console.log(grid3.splice(i, 0, rowStr));
   }
 }
 
