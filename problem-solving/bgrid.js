@@ -171,6 +171,16 @@ const bgrid = (n, gr) => {
   return n === 1 ? gr.join('\n') : gr.join('\n');
 }
 
+const bgridTwo = (n, gr) => {
+  const rows = gr.length, cols = gr[0].length;
+  let grArr = [];
+  for (let str of gr) {
+    // console.log(`str: ${str}`);
+    grArr.push(str.split(''));
+  }
+  return grArr;
+}
+
 let num = 1;
 let grid = 
 [ ".....",
@@ -181,3 +191,4 @@ let grid =
 ];
 
 console.log(bgrid(num, grid));
+console.log(bgridTwo(num, grid));
