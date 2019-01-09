@@ -171,17 +171,61 @@ const bgrid = (n, gr) => {
   return n === 1 ? gr.join('\n') : gr.join('\n');
 }
 
-const bgridTwo = (n, gr) => {
-  const rows = gr.length, cols = gr[0].length;
-  let grArr = [];
-  for (let str of gr) {
-    // console.log(`str: ${str}`);
+const constructGrid = gr => {
+  const grArr = [];
+  for (let str of gr)
     grArr.push(str.split(''));
-  }
   return grArr;
 }
 
-let num = 1;
+const calcState = (val, numSecs) => {
+  const gridState = (numSecs < 3) ? numSecs : (numSecs % 3) + 3;
+  let gridVal = val;
+  console.log(`gridState: ${gridState}`);
+  switch(gridState) {
+    case 0:
+      break;
+    case 1:
+      gridVal = (val === 'O') ? 'O' : '.';
+      break;
+    case 2:
+      gridVal = (val === 'O') ? '.' : 'O';
+      break;
+    case 3:
+      gridVal = (val === 'O') ? '.' : 'O';
+      break;
+    case 4:
+      gridVal = (val === 'O') ? '.' : 'O';
+      break;
+    case 5:
+      gridVal = (val === 'O') ? 'O' : '.';
+      break;
+    default:
+      break;
+  }
+
+  return gridVal;
+}
+
+const bgridTwo = (n, gr) => {
+  const rows = gr.length, cols = gr[0].length;
+  let grFinal = [...Array(rows)].map(x=>Array(cols).fill(0)),
+      grArr = constructGrid(gr);
+  console.log(`beginning grFinal: ${grFinal}`);
+
+  for (let row = 0; row < rows; row++)
+    for (let col = 0; col < cols; col++) {
+      console.log('--');
+      console.log(grArr[row][col]);
+      grFinal[row].splice(col, 1, calcState(grArr[row][col], n));
+    }
+
+  console.log(`grArr: ${grArr}`);
+  console.log(`end grFinal: ${grFinal}`);
+  return grFinal;
+}
+
+let num = 3;
 let grid = 
 [ ".....",
   ".....",
@@ -189,6 +233,7 @@ let grid =
   ".....",
   "....."
 ];
+let grid2 = ["O"];
 
-console.log(bgrid(num, grid));
-console.log(bgridTwo(num, grid));
+console.log(bgrid(num, grid2));
+console.log(bgridTwo(num, grid2));
