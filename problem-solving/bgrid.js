@@ -211,12 +211,14 @@ const bgridTwo = (n, gr) => {
       grArr = constructGrid(gr);
   console.log(`beginning grFinal: ${grFinal}`);
 
-  for (let row = 0; row < rows; row++)
+  for (let row = 0; row < rows; row++) {
     for (let col = 0; col < cols; col++) {
       console.log('--');
       console.log(grArr[row][col]);
       grFinal[row].splice(col, 1, calcState(grArr[row][col], n));
     }
+    grFinal[row] = grFinal[row].join('');
+  }
 
   console.log(`grArr: ${grArr}`);
   console.log(`end n: ${n}, grFinal: ${grFinal}`);
