@@ -179,7 +179,11 @@ const constructGrid = gr => {
 }
 
 const calcState = (val, numSecs) => {
-  const gridState = (numSecs < 3) ? numSecs : (numSecs % 3) + 3;
+  const gridState = numSecs <= 3 ? 
+          numSecs :
+          numSecs % 2 === 0 ? 
+            2 : 
+            3;
   let gridVal = val;
   console.log(`gridState: ${gridState}`);
   switch(gridState) {
@@ -189,16 +193,10 @@ const calcState = (val, numSecs) => {
       gridVal = (val === 'O') ? 'O' : '.';
       break;
     case 2:
-      gridVal = (val === 'O') ? '.' : 'O';
+      gridVal = (val === 'O') ? 'O' : 'O';
       break;
     case 3:
       gridVal = (val === 'O') ? '.' : 'O';
-      break;
-    case 4:
-      gridVal = (val === 'O') ? '.' : 'O';
-      break;
-    case 5:
-      gridVal = (val === 'O') ? 'O' : '.';
       break;
     default:
       break;
@@ -221,7 +219,7 @@ const bgridTwo = (n, gr) => {
     }
 
   console.log(`grArr: ${grArr}`);
-  console.log(`end grFinal: ${grFinal}`);
+  console.log(`end n: ${n}, grFinal: ${grFinal}`);
   return grFinal;
 }
 
@@ -235,5 +233,12 @@ let grid =
 ];
 let grid2 = ["O"];
 
-console.log(bgrid(num, grid2));
-console.log(bgridTwo(num, grid2));
+// console.log(bgrid(num, grid2));
+console.log(bgridTwo(0, grid2));
+console.log(bgridTwo(1, grid2));
+console.log(bgridTwo(2, grid2));
+console.log(bgridTwo(3, grid2));
+console.log(bgridTwo(4, grid2));
+console.log(bgridTwo(5, grid2));
+console.log(bgridTwo(6, grid2));
+console.log(bgridTwo(7, grid2));
