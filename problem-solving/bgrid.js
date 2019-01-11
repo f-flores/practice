@@ -142,7 +142,7 @@ const getState3 = (grid3, rows, cols) => {
     console.log(`gridStr: ${gridStr}`);
     for (let j = 0; j < cols; j++) {
       if (gridStr.charAt(j) === 'x') {
-        console.log(`hello x`);
+        // console.log(`hello x`);
         if (j - 1 > 0) 
           gridStr = gridStr.substring(0, j - 1) + '.' + gridStr.substring(j);
         // gridStr = gridStr.substring(0, j) + '.' + gridStr.substring(j+1);
@@ -161,10 +161,10 @@ const bgrid = (n, gr) => {
   let grState3 = [];
   let grState2 = getState2(grState1, grState3);
   console.log('grState2');
-  console.log(grState2);
+  console.log(grState2.join('\n'));
   console.log('grState3');
   getState3(grState3, rows, cols);
-  console.log(grState3, rows, cols);
+  console.log(grState3.join('\n'), rows, cols);
   // if n == 1 or 2, return grid state one
   // if n == 3, return other grid
   // if n == 4, return other grid four
@@ -178,14 +178,14 @@ const constructGrid = gr => {
   return grArr;
 }
 
-const calcState = (val, numSecs) => {
+const calcState = (gr, row, col, numSecs) => {
   const gridState = numSecs <= 3 ? 
           numSecs :
           numSecs % 2 === 0 ? 
             2 : 
             3;
-  let gridVal = val;
-  console.log(`gridState: ${gridState}`);
+  let val = gr[row][col], gridVal = val;
+  // console.log(`gridState: ${gridState}`);
   switch(gridState) {
     case 0:
       break;
@@ -196,7 +196,22 @@ const calcState = (val, numSecs) => {
       gridVal = (val === 'O') ? 'O' : 'O';
       break;
     case 3:
-      gridVal = (val === 'O') ? '.' : 'O';
+      // gridVal = (val === 'O') ? '.' : 'O';
+      if (val === 'O')
+        gridVal = '.';
+      else {
+        // if (i+- 1, j) or (i, j+- 1) contain 'O' they're also cleared
+        // if upper row (i - 1) within bound, test
+        if (row - 1 >= 0 && gr[row -1][col] === 'O') {
+          console.log(`before row: ${row} gr[row-1]: ${gr[row-1]}`);
+          gr[row -1].splice(col, 1, '.');
+          console.log(`after row: ${row} gr[row-1]: ${gr[row-1]}`);
+        }
+        // if lower row (i + 1) within bound, test
+        gridVal = 'O';
+        // if left column (j - 1) within bound, test
+        // if right column (j + 1) within bound, test
+      }
       break;
     default:
       break;
@@ -209,18 +224,18 @@ const bgridTwo = (n, gr) => {
   const rows = gr.length, cols = gr[0].length;
   let grFinal = [...Array(rows)].map(x=>Array(cols).fill(0)),
       grArr = constructGrid(gr);
-  console.log(`beginning grFinal: ${grFinal}`);
+ //  console.log(`beginning grFinal: ${grFinal}`);
 
   for (let row = 0; row < rows; row++) {
     for (let col = 0; col < cols; col++) {
-      console.log('--');
-      console.log(grArr[row][col]);
-      grFinal[row].splice(col, 1, calcState(grArr[row][col], n));
+      // console.log('--');
+      // console.log(grArr[row][col]);
+      grFinal[row].splice(col, 1, calcState(grArr, row, col, n));
     }
-    grFinal[row] = grFinal[row].join('');
+    // grFinal[row] = grFinal[row].join('');
   }
 
-  console.log(`grArr: ${grArr}`);
+  // console.log(`grArr: ${grArr}`);
   console.log(`end n: ${n}, grFinal: ${grFinal}`);
   return grFinal;
 }
@@ -234,13 +249,21 @@ let grid =
   "....."
 ];
 let grid2 = ["O"];
+let grid3 = 
+[ ".......",
+  "...O...",
+  "....O..",
+  ".......",
+  "OO.....",
+  "OO....."
+];
 
 // console.log(bgrid(num, grid2));
-console.log(bgridTwo(0, grid2));
-console.log(bgridTwo(1, grid2));
-console.log(bgridTwo(2, grid2));
-console.log(bgridTwo(3, grid2));
-console.log(bgridTwo(4, grid2));
-console.log(bgridTwo(5, grid2));
-console.log(bgridTwo(6, grid2));
-console.log(bgridTwo(7, grid2));
+console.log(bgrid(0, grid3));
+console.log(bgrid(1, grid3));
+console.log(bgrid(2, grid3));
+console.log(bgrid(3, grid3));
+console.log(bgrid(4, grid3));
+// console.log(bgridTwo(5, grid3));
+// console.log(bgridTwo(6, grid3));
+// console.log(bgridTwo(7, grid3));
