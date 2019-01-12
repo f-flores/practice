@@ -126,6 +126,7 @@ const getState2 = (grid, nGrid) => {
       }
       gridStr = gridStr.substring(0, col) + 'O' + gridStr.substring(col+1);
     }
+    // grFinal[row] = grFinal[row].join('');
     gridArr.push(gridStr);
     nGrid.push(rowStr);
   }
@@ -142,10 +143,8 @@ const getState3 = (grid3, rows, cols) => {
     console.log(`gridStr: ${gridStr}`);
     for (let j = 0; j < cols; j++) {
       if (gridStr.charAt(j) === 'x') {
-        // console.log(`hello x`);
         if (j - 1 > 0) 
           gridStr = gridStr.substring(0, j - 1) + '.' + gridStr.substring(j);
-        // gridStr = gridStr.substring(0, j) + '.' + gridStr.substring(j+1);
         if (j+1 < cols)
           gridStr = gridStr.substring(0, j+1) + '.' + gridStr.substring(j + 2);
       }
