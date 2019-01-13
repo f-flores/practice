@@ -106,13 +106,26 @@ OOO...O
 
 
 */
+
+const constructGrid = gr => {
+  const grArr = [];
+  let strArr = [];
+
+  for (let str of gr) {
+    strArr.push(str.split(''));
+    grArr.push(strArr);
+    strArr = [];
+  }
+  return grArr;
+}
+
 const getState1 = grid => grid;
 
 const getState2 = (grid, nGrid) => {
   console.log('getState2');
   let row = 0,
       rows = grid.length,
-      gridArr = []
+      gridArr = [],
       cols = grid[0].length;
   for (; row < rows; row++) {
     let rowStr = '', gridStr = grid[row];
@@ -121,14 +134,16 @@ const getState2 = (grid, nGrid) => {
       if (gridStr.charAt(col) !== 'O') {
         // col (i +- 1, )
         rowStr = `${rowStr}O`;
+        nGrid[row][col] = 'O';
       } else {
         rowStr = `${rowStr}x`;
+        nGrid[row][col] = 'x';
       }
       gridStr = gridStr.substring(0, col) + 'O' + gridStr.substring(col+1);
     }
     // grFinal[row] = grFinal[row].join('');
     gridArr.push(gridStr);
-    nGrid.push(rowStr);
+    // nGrid.push(rowStr);
   }
   return gridArr;
 }
@@ -137,45 +152,88 @@ const getState2 = (grid, nGrid) => {
 // state(0, n) = 'o' or '.'
 // state((i,j), n) = 'o' or '.'
 const getState3 = (grid3, rows, cols) => {
-  console.log(`in getState3, rows: ${rows}, cols: ${cols}`);
+  // grid3 = constructGrid(grid3);
+  // console.log(`before getState3, grid3: ${grid3}, rows: ${rows}, cols: ${cols}`);
   for (let i = 0; i < rows; i++) {
-    let rowStr = '', gridStr = grid3[i];
-    console.log(`gridStr: ${gridStr}`);
+    // let rowStr = '', gridStr = grid3[i];
+    // console.log(`gridStr: ${gridStr}`);
     for (let j = 0; j < cols; j++) {
-      if (gridStr.charAt(j) === 'x') {
-        if (j - 1 > 0) 
-          gridStr = gridStr.substring(0, j - 1) + '.' + gridStr.substring(j);
-        if (j+1 < cols)
-          gridStr = gridStr.substring(0, j+1) + '.' + gridStr.substring(j + 2);
+      if (grid3[i][j] === 'x') {
+        // console.log(`i,j: (${i},${j})`);
+        // grid3[i][j] = '.';
+        if (j - 1 >= 0 && grid3[i][j-1] !== 'x') 
+          grid3[i][j - 1] = '.';
+        if (j+1 < cols && grid3[i][j+1] !== 'x')
+          grid3[i][j + 1] = '.';
+        if (i - 1 >= 0 && grid3[i - 1][j] !== 'x')
+          grid3[i - 1][j] = '.';
+        if (i + 1 < rows && grid3[i + 1][j] !== 'x')
+          grid3[i + 1][j] = '.';
       }
-    }
     // console.log(grid3.splice(i, 0, rowStr));
+    }
+    for (let j = 0; j < cols; j++) {
+      if (grid3[i][j] === 'x')
+        // ;
+        grid3[i][j] = '.';
+    }
+    // grid3[i] = grid3[i].join('');
   }
+  // console.log(`return getState3, grid3: ${grid3}, rows: ${rows}, cols: ${cols}`);
+  console.log(`grid3\n---`);
+  console.log(grid3);
 }
 
 const bgrid = (n, gr) => {
   let rows = gr.length, cols = gr[0].length;
   let grState1 = getState1(gr);
   console.log(grState1);
-  let grState3 = [];
+  // let grState3 = [];
+  let grState3 = [...Array(rows)].map(x=>Array(cols).fill(0));
   let grState2 = getState2(grState1, grState3);
   console.log('grState2');
   console.log(grState2.join('\n'));
   console.log('grState3');
   getState3(grState3, rows, cols);
-  console.log(grState3.join('\n'), rows, cols);
+  console.log(grState3.join('\n')); // , rows, cols);
   // if n == 1 or 2, return grid state one
   // if n == 3, return other grid
   // if n == 4, return other grid four
   return n === 1 ? gr.join('\n') : gr.join('\n');
 }
 
-const constructGrid = gr => {
-  const grArr = [];
-  for (let str of gr)
-    grArr.push(str.split(''));
-  return grArr;
-}
+
+
+let num = 3;
+let grid = 
+[ ".....",
+  ".....",
+  "..O..",
+  ".....",
+  "....."
+];
+let grid2 = ["O"];
+let grid3 = 
+[ ".......",
+  "...O...",
+  "....O..",
+  ".......",
+  "OO.....",
+  "OO....."
+];
+
+// console.log(bgrid(num, grid2));
+console.log(bgrid(0, grid3));
+console.log(bgrid(1, grid3));
+console.log(bgrid(2, grid3));
+console.log(bgrid(3, grid3));
+console.log(bgrid(4, grid3));
+// console.log(bgridTwo(5, grid3));
+// console.log(bgridTwo(6, grid3));
+// console.log(bgridTwo(7, grid3));
+
+/*
+
 
 const calcState = (gr, row, col, numSecs) => {
   const gridState = numSecs <= 3 ? 
@@ -239,30 +297,11 @@ const bgridTwo = (n, gr) => {
   return grFinal;
 }
 
-let num = 3;
-let grid = 
-[ ".....",
-  ".....",
-  "..O..",
-  ".....",
-  "....."
-];
-let grid2 = ["O"];
-let grid3 = 
-[ ".......",
-  "...O...",
-  "....O..",
-  ".......",
-  "OO.....",
-  "OO....."
-];
+const constructGrid = gr => {
+  const grArr = [];
+  for (let str of gr)
+    grArr.push(str.split(''));
+  return grArr;
+}
 
-// console.log(bgrid(num, grid2));
-console.log(bgrid(0, grid3));
-console.log(bgrid(1, grid3));
-console.log(bgrid(2, grid3));
-console.log(bgrid(3, grid3));
-console.log(bgrid(4, grid3));
-// console.log(bgridTwo(5, grid3));
-// console.log(bgridTwo(6, grid3));
-// console.log(bgridTwo(7, grid3));
+*/
