@@ -107,60 +107,31 @@ OOO...O
 
 */
 
-const constructGrid = gr => {
-  const grArr = [];
-  let strArr = [];
-
-  for (let str of gr) {
-    strArr.push(str.split(''));
-    grArr.push(strArr);
-    strArr = [];
-  }
-  return grArr;
-}
-
-const getState1 = grid => grid;
 
 const getState2 = (grid, nGrid) => {
-  console.log('getState2');
-  let row = 0,
-      rows = grid.length,
-      gridArr = [],
-      cols = grid[0].length;
-  for (; row < rows; row++) {
-    let rowStr = '', gridStr = grid[row];
+  let gridArr = [];
+  const cols = grid[0].length,
+        rows = grid.length;
+
+  for (let row = 0; row < rows; row++) {
+    gridStr = grid[row];
     for (let col = 0; col < cols; col++) {
-      // console.log(`gridStr.charAt(col): ${gridStr.charAt(col)}`);
       if (gridStr.charAt(col) !== 'O') {
-        // col (i +- 1, )
-        rowStr = `${rowStr}O`;
         nGrid[row][col] = 'O';
       } else {
-        rowStr = `${rowStr}x`;
         nGrid[row][col] = 'x';
       }
       gridStr = gridStr.substring(0, col) + 'O' + gridStr.substring(col+1);
     }
-    // grFinal[row] = grFinal[row].join('');
     gridArr.push(gridStr);
-    // nGrid.push(rowStr);
   }
   return gridArr;
 }
 
-// create states --- based on time
-// state(0, n) = 'o' or '.'
-// state((i,j), n) = 'o' or '.'
 const getState3 = (grid3, rows, cols) => {
-  // grid3 = constructGrid(grid3);
-  // console.log(`before getState3, grid3: ${grid3}, rows: ${rows}, cols: ${cols}`);
   for (let i = 0; i < rows; i++) {
-    // let rowStr = '', gridStr = grid3[i];
-    // console.log(`gridStr: ${gridStr}`);
     for (let j = 0; j < cols; j++) {
       if (grid3[i][j] === 'x') {
-        // console.log(`i,j: (${i},${j})`);
-        // grid3[i][j] = '.';
         if (j - 1 >= 0 && grid3[i][j-1] !== 'x') 
           grid3[i][j - 1] = '.';
         if (j+1 < cols && grid3[i][j+1] !== 'x')
@@ -170,49 +141,42 @@ const getState3 = (grid3, rows, cols) => {
         if (i + 1 < rows && grid3[i + 1][j] !== 'x')
           grid3[i + 1][j] = '.';
       }
-    // console.log(grid3.splice(i, 0, rowStr));
     }
+    // set 'x' placeholders to '.'
     for (let j = 0; j < cols; j++) {
       if (grid3[i][j] === 'x')
-        // ;
         grid3[i][j] = '.';
     }
-    // grid3[i] = grid3[i].join('');
   }
-  // console.log(`return getState3, grid3: ${grid3}, rows: ${rows}, cols: ${cols}`);
-  console.log(`grid3\n---`);
-  console.log(grid3);
+
+  // set grid3 back to array of strings format
+  for (let index = 0; index < rows; index++) {
+    grid3[index] = grid3[index].join('');
+  }
 }
 
 const bgrid = (n, gr) => {
   let rows = gr.length, cols = gr[0].length;
-  let grState1 = getState1(gr);
-  console.log(grState1);
-  // let grState3 = [];
+
+  if (n === 0 || n === 1) {
+    return gr.join('\n');
+  } 
+
   let grState3 = [...Array(rows)].map(x=>Array(cols).fill(0));
-  let grState2 = getState2(grState1, grState3);
-  console.log('grState2');
-  console.log(grState2.join('\n'));
-  console.log('grState3');
+  let grState2 = getState2(gr, grState3);
   getState3(grState3, rows, cols);
-  console.log(grState3.join('\n')); // , rows, cols);
-  // if n == 1 or 2, return grid state one
-  // if n == 3, return other grid
-  // if n == 4, return other grid four
-  return n === 1 ? gr.join('\n') : gr.join('\n');
+
+  if (n % 2 === 0) {
+    return grState2.join('\n');
+  } else if (n % 4 === 1) {
+    return gr.join('\n');
+  } else {
+    return grState3.join('\n');
+  }
 }
 
 
 
-let num = 3;
-let grid = 
-[ ".....",
-  ".....",
-  "..O..",
-  ".....",
-  "....."
-];
-let grid2 = ["O"];
 let grid3 = 
 [ ".......",
   "...O...",
@@ -221,16 +185,20 @@ let grid3 =
   "OO.....",
   "OO....."
 ];
+let grid4 = 
+[ ".......",
+  "...O.O.",
+  "....O..",
+  "..O....",
+  "OO...OO",
+  "OO.O...",
+];
 
-// console.log(bgrid(num, grid2));
-console.log(bgrid(0, grid3));
-console.log(bgrid(1, grid3));
-console.log(bgrid(2, grid3));
-console.log(bgrid(3, grid3));
-console.log(bgrid(4, grid3));
-// console.log(bgridTwo(5, grid3));
-// console.log(bgridTwo(6, grid3));
-// console.log(bgridTwo(7, grid3));
+// test values
+for (let x = 0; x < 16; x++) {
+  console.log(`\n--- ${x} ---`);
+  console.log(bgrid(x, grid4));
+}
 
 /*
 
@@ -303,5 +271,18 @@ const constructGrid = gr => {
     grArr.push(str.split(''));
   return grArr;
 }
+
+const constructGrid = gr => {
+  const grArr = [];
+  let strArr = [];
+
+  for (let str of gr) {
+    strArr.push(str.split(''));
+    grArr.push(strArr);
+    strArr = [];
+  }
+  return grArr;
+}
+
 
 */
