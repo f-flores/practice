@@ -108,13 +108,13 @@ OOO...O
 */
 
 
-const getState2 = (grid, nGrid) => {
+const getFullGrid = (grid, nGrid) => {
   let gridArr = [];
   const cols = grid[0].length,
         rows = grid.length;
 
   for (let row = 0; row < rows; row++) {
-    gridStr = grid[row];
+    let gridStr = grid[row];
     for (let col = 0; col < cols; col++) {
       if (gridStr.charAt(col) !== 'O') {
         nGrid[row][col] = 'O';
@@ -128,30 +128,30 @@ const getState2 = (grid, nGrid) => {
   return gridArr;
 }
 
-const getState3 = (grid3, rows, cols) => {
+const getExplodeResult = (grid, rows, cols) => {
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
-      if (grid3[i][j] === 'x') {
-        if (j - 1 >= 0 && grid3[i][j-1] !== 'x') 
-          grid3[i][j - 1] = '.';
-        if (j+1 < cols && grid3[i][j+1] !== 'x')
-          grid3[i][j + 1] = '.';
-        if (i - 1 >= 0 && grid3[i - 1][j] !== 'x')
-          grid3[i - 1][j] = '.';
-        if (i + 1 < rows && grid3[i + 1][j] !== 'x')
-          grid3[i + 1][j] = '.';
+      if (grid[i][j] === 'x') {
+        if (j - 1 >= 0 && grid[i][j-1] !== 'x') 
+          grid[i][j - 1] = '.';
+        if (j+1 < cols && grid[i][j+1] !== 'x')
+          grid[i][j + 1] = '.';
+        if (i - 1 >= 0 && grid[i - 1][j] !== 'x')
+          grid[i - 1][j] = '.';
+        if (i + 1 < rows && grid[i + 1][j] !== 'x')
+          grid[i + 1][j] = '.';
       }
     }
     // set 'x' placeholders to '.'
     for (let j = 0; j < cols; j++) {
-      if (grid3[i][j] === 'x')
-        grid3[i][j] = '.';
+      if (grid[i][j] === 'x')
+        grid[i][j] = '.';
     }
   }
 
-  // set grid3 back to array of strings format
+  // set grid back to array of strings format
   for (let index = 0; index < rows; index++) {
-    grid3[index] = grid3[index].join('');
+    grid[index] = grid[index].join('');
   }
 }
 
@@ -163,14 +163,16 @@ const bgrid = (n, gr) => {
   } 
 
   let grState3 = [...Array(rows)].map(x=>Array(cols).fill(0));
-  let grState2 = getState2(gr, grState3);
-  getState3(grState3, rows, cols);
-
+  let grState2 = getFullGrid(gr, grState3);
+  getExplodeResult(grState3, rows, cols);
+  let grState4 = [...Array(rows)].map(x=>Array(cols).fill(0));
+  getFullGrid(grState3, grState4);
+  getExplodeResult(grState4, rows, cols);
   if (n % 2 === 0) {
     return grState2.join('\n');
   } else if (n % 4 === 1) {
-    return gr.join('\n');
-  } else {
+    return grState4.join('\n');
+  } else { 
     return grState3.join('\n');
   }
 }
@@ -195,9 +197,9 @@ let grid4 =
 ];
 
 // test values
-for (let x = 0; x < 16; x++) {
+for (let x = 0; x < 11; x++) {
   console.log(`\n--- ${x} ---`);
-  console.log(bgrid(x, grid4));
+  console.log(bgrid(x, grid3));
 }
 
 /*
