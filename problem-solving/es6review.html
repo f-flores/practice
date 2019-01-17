@@ -183,9 +183,8 @@
         arr[n] = 1;
         return 1;
       }
-
-      let factorial = n * fact(n - 1, arr);
-      arr[n] = factorial;
+      
+      arr[n] = n * fact(n - 1, arr);
 
       return arr[n];
     }
@@ -193,6 +192,15 @@
     let fNum = 6;
 
     console.log(`factorial(${fNum}): ${fact(fNum)}`);
+
+    const gcd = (a, b) => {
+      if (b === 0)
+        return a;
+      else
+        return gcd(b, a%b);
+    }
+    const gNum1 = 2, gNum2 = 105;
+    console.log(`gcd(${gNum1}, ${gNum2}): ${gcd(gNum1, gNum2)}`);
 
     </script>
 </body>
