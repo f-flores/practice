@@ -46,7 +46,7 @@ function stairwaysIter(n) {
 }
 
 // generalization: test set X versus sum N
-const reducer = (accumulator, currentValue) => accumulator + currentValue;
+const reducer = (acc, currentValue) => acc + currentValue;
 
 function stairwaysMem(arr, n, mem) {
   if (mem.length > 0 && mem[n]) {
