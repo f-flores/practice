@@ -116,11 +116,11 @@ const getFullGrid = (grid, nGrid) => {
   for (let row = 0; row < rows; row++) {
     let gridStr = grid[row];
     for (let col = 0; col < cols; col++) {
-      if (gridStr.charAt(col) !== 'O') {
+      if (gridStr.charAt(col) !== 'O') 
         nGrid[row][col] = 'O';
-      } else {
+      else 
         nGrid[row][col] = 'x';
-      }
+        
       gridStr = gridStr.substring(0, col) + 'O' + gridStr.substring(col+1);
     }
     gridArr.push(gridStr);
