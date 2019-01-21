@@ -193,6 +193,7 @@
 
     console.log(`factorial(${fNum}): ${fact(fNum)}`);
 
+    // greatest common denominator
     const gcd = (a, b) => {
       if (b === 0)
         return a;
@@ -210,6 +211,7 @@
       return exp < 0 ? 1/(product * 1.0) : product;
     }
 
+    // power recursive
     const myPowRecursive = (base, exp) => {
       if (exp === 0)
         return 1;
