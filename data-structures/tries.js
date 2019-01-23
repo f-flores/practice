@@ -1,9 +1,14 @@
 /*
 
   Implementation of Trie Data Structure
+    January 2019
 
   */
 
+  /*
+   * a node in a trie has a letter key, children (represented by a hashmap)
+   *  and and endWord boolean.
+   */
   class TrieNode {
     constructor(letter = '') {
       this.letterKey = letter;
