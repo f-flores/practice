@@ -45,6 +45,18 @@ class Trie {
 
     return insert(elem.substring(1), node.children.get(elem[0]));
   }
+
+  isWord(elem, node=this.root) {
+    if (elem.length === 0) {
+      return node.isEndWord();
+    }
+
+    if (node.children.has(elem[0])) {
+      return this.isWord(elem.substring(1), node.children.get(elem[0]));
+    } else {
+      return false;
+    }
+  }
 }
 
 
