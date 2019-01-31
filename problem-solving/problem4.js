@@ -57,6 +57,34 @@ class Trie {
       return false;
     }
   }
+
+  remove(elem, node=this.root, index = 0) {
+    if (elem.length === index) {
+      if (!node.isEndWord()) {
+        return false;
+      } 
+
+      node.unsetEndWord();
+
+      return node.children.size === 0;
+    }
+
+    // check current character
+    const curCh = elem[index];
+    if (!node.children.has(curCh)) {
+      return false;
+    }
+
+    // determine whether node should be deleted
+    const shouldDelete = this.remove(elem, node.children.get(curCh), index+1);
+    if (shouldDelete) {
+      node.children.delete(curCh);
+
+      // next line returns true if no child is left in char map 
+      return node.children.size === 0;
+    }
+    return false;
+  }
 }
 
 
