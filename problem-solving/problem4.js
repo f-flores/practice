@@ -85,6 +85,20 @@ class Trie {
     }
     return false;
   }
+
+  print(str="", node=this.root) {
+    if (node === null) {
+      return;
+    }
+
+    if (node.isEndWord()) {
+      console.log(str);
+    }
+
+    for (let key of node.children.keys()) {
+      this.print(node.children.get(key), str.concat(key));
+    }
+  }
 }
 
 
