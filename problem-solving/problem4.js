@@ -101,7 +101,36 @@ class Trie {
   }
 }
 
+function testTrie() {
+  let trie = new Trie();
 
+ // console.log(JSON.stringify(trie, null, 2));
+  trie.insert("net");
+  trie.insert("nob");
+  trie.insert("nag");
+  trie.insert("not");
+  trie.insert("no");
+  trie.insert("new");
+  trie.insert("help");
+  trie.insert("note");
+  trie.remove("not");
+
+  console.log(trie.isWord("not"));
+  console.log(trie.isWord("note"));
+  // trie.remove("help");
+  console.log(trie.isWord("help"));
+  
+
+  for (var [key, value] of trie.root.children.entries()) {
+    console.log(`key ${key}: value -- ${value}`);
+  }
+
+  console.log("==== trie ====");
+  console.log(trie, null, 2);
+  trie.print();
+}
+
+testTrie();
 
 
 
