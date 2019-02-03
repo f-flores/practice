@@ -22,7 +22,9 @@
       this.endWord = false;
     }
 
-    isEndWord = () => this.endWord
+    isEndWord() {
+      return this.endWord;
+    }
   
   }
 
@@ -43,7 +45,7 @@ class Trie {
       node.children.set(elem[0], childNode);
     } 
 
-    return insert(elem.substring(1), node.children.get(elem[0]));
+    return this.insert(elem.substring(1), node.children.get(elem[0]));
   }
 
   isWord(elem, node=this.root) {
@@ -122,12 +124,12 @@ function testTrie() {
   
 
   for (var [key, value] of trie.root.children.entries()) {
-    console.log(`key ${key}: value -- ${value}`);
+    console.log(`key ${key}: value -- ${JSON.stringify(value, null, 2)}`);
   }
 
   console.log("==== trie ====");
   console.log(trie, null, 2);
-  trie.print();
+  // trie.print();
 }
 
 testTrie();
