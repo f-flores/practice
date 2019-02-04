@@ -93,12 +93,12 @@ class Trie {
       return;
     }
 
-    if (node.isEndWord()) {
+    if (node.isEndWord() === true) {
       console.log(str);
     }
 
     for (let key of node.children.keys()) {
-      this.print(node.children.get(key), str.concat(key));
+      this.print(str.concat(key), node.children.get(key));
     }
   }
 }
@@ -128,8 +128,8 @@ function testTrie() {
   }
 
   console.log("==== trie ====");
-  console.log(trie, null, 2);
-  // trie.print();
+  console.log(trie);
+  trie.print();
 }
 
 testTrie();
