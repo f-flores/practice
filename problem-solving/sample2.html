@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF=8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sample 2</title>
+    <style>
+      body {
+        background: lightblue;
+        margin: 20px;
+        border-left: 2px solid red;
+        border-right: 2px solid red;
+        height: 100vh;
+      }
+      h1 {
+        display: inline-block;
+        background: lightgrey;
+        font-weight: bold;
+        border: 2px dotted black;
+        padding: 10px;
+        text-align: center;
+        width: 200px;
+        height: 50px;
+      }
+      .body-style {
+        margin: 20px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size:  120%;
+      }
+      .square30 {
+        margin: 5px 10px 10px 0px;
+        height: 28px;
+        width: 28px;
+        background-color: goldenrod;
+        border: 2px solid black;
+        display: inline-block;
+      }
+      .circle30 {
+        margin: 5px 10px 10px 0px;
+        height: 28px;
+        width: 28px;
+        background-color: goldenrod;
+        border: 2px solid black;
+        border-radius: 50%;
+        display: inline-block;
+      }
+      .c30 {
+        margin: 20% 0% 0% 20%;
+        background-color: pink;
+        height: 28px;
+        width: 28px;
+        border: 2px dotted black;
+        border-radius: 50%;
+        display: inline-block;
+      }
+      .sq60 {
+        margin: 5px 10px 10px 0px;
+        background-color: purple;
+        height: 60px;
+        width: 60px;
+        border: 2px solid black;
+        display: inline-block;
+      }
+      .shape-wrapper {
+        margin-left: 20px;
+      }
+      #wrapper {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wrapper">
+      <h1>Sample 2</h1>
+    </div>
+    <p class="body-style">Lorem ipsum text.
+      Two squares side by side, 30px wide total:
+    </p>
+    <div class="shape-wrapper">
+      <div class="square30">
+      </div>
+      <div class="square30">
+      </div>
+    </div>
+    <p class="body-style">Lorem ipsum text.
+        Three circles side by side:
+    </p>
+    <div class="shape-wrapper">
+      <div class="circle30"></div>
+      <div class="circle30"></div>
+      <div class="circle30"></div>
+    </div>
+    <p class="body-style">Lorem ipsum text.
+        Two squares within circle side by side:
+    </p>
+    <div class="shape-wrapper">
+      <div class="sq60">
+        <div class="c30"></div>
+      </div>
+      <div class="sq60">
+        <div class="c30"></div>
+      </div>
+    </div>
+  </body>
+</html>
