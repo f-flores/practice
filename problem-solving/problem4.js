@@ -1,6 +1,6 @@
 /*
-
-
+  determine whether string s1 is a substring of s2 
+  *
   */
 
   /*
