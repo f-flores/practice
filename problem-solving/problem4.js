@@ -1,5 +1,11 @@
 /*
-  determine whether string s1 is a substring of s2 
+  write a function that takes 2 strings, s1 and s2
+  and returns the longest common subsequence of s1 
+  
+  Examples:
+  "ABAZDC", "BACBAD" => "ABAD",
+  "AGGTAB", "GXTXAYB" => "GTAB",
+  "aaaa", "aa" => "aa"
   *
   */
 

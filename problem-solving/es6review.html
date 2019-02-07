@@ -224,6 +224,52 @@
     console.log(`pow(${base1}, ${exp1}) = ${myPow(base1, exp1)}`);
     console.log(`powRecursive(${base1}, ${exp1}) = ${myPowRecursive(base1, exp1)}`);
 
+    const myFizzBuzz = () => {
+/*       for (let i = 1; i <= 100; i++) {
+        if (i % 15 === 0) {
+          console.log(`FizzBuzz`);
+        } else if (i % 3 === 0) {
+          console.log(`Fizz`);
+        } else if (i % 5 === 0) {
+          console.log(`Buzz`);
+        } else {
+          console.log(i);
+        }
+      } */
+      for (let i = 1; i <= 100; i++) {
+        let output = '';
+        if (i % 3 === 0) {
+          output = "Fizz";
+        }
+        if (i % 5 === 0) {
+          output += "Buzz";
+        }
+        if (output !== '') {
+          console.log(output);
+        } else {
+          console.log(i);
+        }
+      } 
+    }
+
+    myFizzBuzz();
+
+
+    function package(item) {
+      console.log(`placing ${item} in box`);
+
+      function mailItem(address) {
+        console.log(`mailing item ${item} to ${address}.`);
+      }
+
+      return mailItem;
+    }
+
+    let item1 = package(`First package`);
+    let baseballCap = package(`Yankees cap`);
+
+    baseballCap(`45 Main St., NY, NY 10031`);
+    item1(`3 Washington Ave. Elizabeth, NJ 07201`);
     </script>
 </body>
 </html>
