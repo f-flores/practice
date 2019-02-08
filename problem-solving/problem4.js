@@ -140,6 +140,22 @@ function testTrie() {
 
 testTrie();
 
+/*
+ * s1 and s2
+ *   Examples:
+ * "ABAZDC", "BACBAD" => "ABAD",
+ * "AGGTAB", "GXTXAYB" => "GTAB",
+ * "aaaa", "aa" => "aa"
+ */
 
+//  "ABAZDC", "BACBAD" => "ABAD",
+//  s1, s2 
+function gcSubstring(str1, str2) {
+  return 'hello';
+}
 
+const s1 = "ABAZDC";
+const s2 = "BACBAD";
+
+console.log(gcSubstring(s1, s2));
 
