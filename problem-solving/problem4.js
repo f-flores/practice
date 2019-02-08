@@ -151,11 +151,42 @@ testTrie();
 //  "ABAZDC", "BACBAD" => "ABAD",
 //  s1, s2 
 function gcSubstring(str1, str2) {
-  return 'hello';
+  let gSub = [];
+  let s1Pos = 0, s2Pos = 0;
+
+  while (s1Pos < str1.length) {
+    // if chars are equal, add to substring and advance both s1 and s2 pos
+    if (str1[s1Pos] === str2[s2Pos]) {
+      gSub.push(str1[s1Pos]);
+      console.log(`outer s1Pos: ${s1Pos}, s2Pos: ${s2Pos}`)
+      console.log(`${gSub}`);
+      s1Pos++;
+      s2Pos++;
+    } else {
+      for (let tPos = s2Pos; tPos < str2.length; tPos++) {
+        if (str1[s1Pos] === str2[tPos]) {
+          gSub.push(str2[tPos]);
+          console.log(`inner s1Pos: ${s1Pos}, s2Pos: ${tPos}`)
+          console.log(`${gSub}`);
+          s2Pos = tPos;
+          s1Pos++;
+          // break;
+        }
+      }
+    }
+    s1Pos++;
+  }
+
+
+  return gSub.join('');
 }
 
-const s1 = "ABAZDC";
-const s2 = "BACBAD";
+// const s1 = "yAGGTAB";
+// const s2 = "yGXTXAYB";
+// const s1 = "aaaa";
+// const s2 = "aa";
+const s1 = "GXTXAYB";
+const s2 = "AGGTAB";
 
 console.log(gcSubstring(s1, s2));
 
