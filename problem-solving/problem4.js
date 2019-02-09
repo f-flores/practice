@@ -150,8 +150,7 @@ testTrie();
 
 //  "ABAZDC", "BACBAD" => "ABAD",
 //  s1, s2 
-function gcSubstring(str1, str2) {
-  let gSub = [];
+function gcSubstring(str1, str2, gSub) {
   let s1Pos = 0, s2Pos = 0;
 
   while (s1Pos < str1.length) {
@@ -169,24 +168,46 @@ function gcSubstring(str1, str2) {
           console.log(`inner s1Pos: ${s1Pos}, s2Pos: ${tPos}`)
           console.log(`${gSub}`);
           s2Pos = tPos;
-          s1Pos++;
-          // break;
+          break;
         }
       }
+      s1Pos++;
     }
-    s1Pos++;
   }
 
 
   return gSub.join('');
 }
 
-// const s1 = "yAGGTAB";
-// const s2 = "yGXTXAYB";
-// const s1 = "aaaa";
-// const s2 = "aa";
-const s1 = "GXTXAYB";
-const s2 = "AGGTAB";
+const getMaxStr = arr => {
+  let maxStr = "";
 
-console.log(gcSubstring(s1, s2));
+  for (str of arr) {
+    if (str.length > maxStr.length)
+      maxStr = str;
+  }
+
+  return maxStr;
+}
+
+
+const getGcSubstring = (s1, s2) => {
+  let arrStr = [];
+
+  arrStr.push(gcSubstring(s1, s2, []));
+  arrStr.push(gcSubstring(s2, s1, []));
+
+  return getMaxStr(arrStr);
+}
+
+// const s1 = "AGGTAB";
+// const s2 = "GXTXAYB";
+const s2 = "aaaa";
+const s1 = "aa"
+// const s1 = "GXTXAYB";
+// const s2 = "AGGTAB";
+// const s2 = "ABAZDC";
+// const s1 = "BACBAD";
+
+console.log(getGcSubstring(s1, s2));
 
