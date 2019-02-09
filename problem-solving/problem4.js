@@ -157,16 +157,12 @@ function gcSubstring(str1, str2, gSub) {
     // if chars are equal, add to substring and advance both s1 and s2 pos
     if (str1[s1Pos] === str2[s2Pos]) {
       gSub.push(str1[s1Pos]);
-      console.log(`outer s1Pos: ${s1Pos}, s2Pos: ${s2Pos}`)
-      console.log(`${gSub}`);
       s1Pos++;
       s2Pos++;
     } else {
       for (let tPos = s2Pos; tPos < str2.length; tPos++) {
         if (str1[s1Pos] === str2[tPos]) {
           gSub.push(str2[tPos]);
-          console.log(`inner s1Pos: ${s1Pos}, s2Pos: ${tPos}`)
-          console.log(`${gSub}`);
           s2Pos = tPos;
           break;
         }
@@ -174,7 +170,6 @@ function gcSubstring(str1, str2, gSub) {
       s1Pos++;
     }
   }
-
 
   return gSub.join('');
 }
@@ -200,10 +195,10 @@ const getGcSubstring = (s1, s2) => {
   return getMaxStr(arrStr);
 }
 
-// const s1 = "AGGTAB";
-// const s2 = "GXTXAYB";
-const s2 = "aaaa";
-const s1 = "aa"
+const s1 = "AGGTAB";
+const s2 = "GXTXAYB";
+// const s2 = "aaaa";
+// const s1 = "aa"
 // const s1 = "GXTXAYB";
 // const s2 = "AGGTAB";
 // const s2 = "ABAZDC";
