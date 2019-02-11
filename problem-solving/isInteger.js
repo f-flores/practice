@@ -11,4 +11,12 @@ function isInteger3(num) {
   return Number.isInteger(num);
 }
 
+function multiply(a) {
+  return function(b) {
+    return a * b;
+  }
+}
+
 console.log(isInteger3(5));
+
+console.log(multiply(5)(6));
