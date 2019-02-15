@@ -107,6 +107,36 @@ myList.print();
       this.adjacencyList[dest].add(src);
     }
 
+    // based on https://www.youtube.com/watch?v=zaBhtODEL0w&list=PLsn6T340evTTsIu-ziXa2-e58idI3kkl1&index=12
+    hasPathDFS(src, dest) {
+      let sFrom = this.adjacencyList[src];
+      let dTo = this.adjacencyList[dest];
+
+      let visited = new Set();
+      console.log(`1st def visited: ${JSON.stringify(visited, null, 2)}`);
+      return this.hasPathDFSearch(sFrom, dTo, visited);
+    }
+
+    hasPathDFSearch(src, dest, visited) {
+      console.log(`2nd def visited: ${JSON.stringify(visited, null, 2)}`);
+      if (visited.has(this.adjacencyList[src].head.value)) {
+        return false;
+      }
+      visited.add(this.adjacencyList[src].head.value);
+      if (src === dest) {
+        return true;
+      }
+      // otherwise check all children to see if there is a path
+      let childrenNodeList = this.adjacencyList[src].head;
+      while (childrenNodeList !== null) {
+        if (this.hasPathDFSearch(src, dest, visited))
+          return true;
+        childrenNodeList = childrenNodeList.next;
+      }
+
+      return false;
+    }
+
     printGraph() {
       for (let v = 0; v < this.Vertices; v++) {
         process.stdout.write(`Vertex ${v} adjacency list\n head`);
@@ -137,3 +167,4 @@ myList.print();
     // print the adjacency list representation of  
     // the above graph 
     graph.printGraph(); 
+    graph.hasPathDFS(1, 3);
