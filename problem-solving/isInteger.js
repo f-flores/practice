@@ -13,10 +13,24 @@ function isInteger3(num) {
 
 function multiply(a) {
   return function(b) {
-    return a * b;
+    return function(c) {
+      return a * b * c;
+    }
   }
+}
+
+function decToBinary(num) {
+  let arr = [];
+  do {
+    arr.unshift(Math.trunc(num % 2));
+    num = Math.trunc(num/2);
+  } while (num > 0);
+  return arr.join('');
 }
 
 console.log(isInteger3(5));
 
-console.log(multiply(5)(6));
+console.log(multiply(5)(6)(7));
+
+const myNum = 25;
+console.log(`decToBinary(${myNum}): ${decToBinary(myNum)}`);
