@@ -38,7 +38,6 @@ const compareDiffLengthStrs = (arr1, arr2) => {
 function isOneAway(s1, s2) {
   const s1arr = s1.split('');
   const s2arr = s2.split('');
-  let diffArr = [];
 
   // case where s1 and s2 are more than two edits away because of length
   if (Math.abs(s1arr.length - s2arr.length) >= 2)
@@ -54,8 +53,6 @@ function isOneAway(s1, s2) {
   else if (s2arr.length > s1arr.length) {
     return compareDiffLengthStrs(s2arr, s1arr);
   }
-
-
 }
 
 const str1 = "qyaz";
