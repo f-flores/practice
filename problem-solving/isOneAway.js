@@ -15,11 +15,13 @@ const compareSameLengthStrs = (arr1, arr2) => {
         return false;
     }
   }
+
   return true;
 }
 
 const compareDiffLengthStrs = (arr1, arr2) => {
   let diffArr = [], arr1Pos = 0, arr2Pos = 0;
+
   while (arr1Pos < arr1.length) {
     if (arr1[arr1Pos] === arr2[arr2Pos]) {
       arr1Pos++;
