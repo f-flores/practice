@@ -102,5 +102,22 @@
         <div class="c30"></div>
       </div>
     </div>
+    <script type="text/javascript">
+    function mailPkg(item) {
+      console.log(`Packing item ${item} in enclosure.`);
+
+      function shipPkg(addr) {
+        console.log(`Shipping ${item} to ${addr}`);
+      }
+
+      return shipPkg;
+    }
+
+    let book = new mailPkg("book");
+    let laptop = new mailPkg("laptop");
+
+    laptop("32 Greenwich Lane, Union, NJ 07083");
+    book("430 Riverside Drive, Elizabeth, NJ 07208");
+    </script>
   </body>
 </html>

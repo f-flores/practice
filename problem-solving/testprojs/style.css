@@ -1,0 +1,23 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #777777;
+  background: #777;
+  font-size: 18px;
+}
+
+header,Nav,Section,Aside,footer {
+  background:#ebebeb;
+  width:495px;
+  text-align: center;
+}
+
+Article {
+  color: #ebebeb;
+  background: #777;
+  width: 495px;
+}
+
+h1, p {
+  color: #777777;
+  background: #ebebeb;
+}
