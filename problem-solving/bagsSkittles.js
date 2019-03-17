@@ -1,3 +1,12 @@
+// ============================================================
+//
+// File name: bagsSkittles.js
+// Description: hacker rank problem, weight to fulfill
+//  returns number of small bags needed
+//
+// ============================================================
+
+
 // weight to fulfill
 //
 
@@ -34,4 +43,3 @@ function smBags(small, big, goal) {
 
 
 console.log("number of small bags of skittles: ", smBags(24, 10, 3));
-
