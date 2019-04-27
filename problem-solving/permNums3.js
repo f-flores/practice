@@ -23,7 +23,7 @@ n: the upper bound of natural numbers to consider, inclusive
 k: the integer difference between each element and its index
 Input Format
 
-The first line contains an integer , the number of test cases. 
+The first line contains an integer , the number of test cases.
 Each of the next  lines contains  space-separated integers,  and .
 
 Constraints
@@ -53,7 +53,7 @@ Test Case 1:
 
 perm(1).png
 
-Test Case 2: 
+Test Case 2:
 No absolute permutation exists, so we print -1 on a new line.
 
 */
@@ -91,9 +91,7 @@ function permutationK(n, k) {
   return result;
 }
 
-const nItems = 60;
-const k = 3;
+const nItems = 80;
+const k = 4;
 
 console.log(permutationK(nItems, k));
-
-
